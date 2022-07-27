@@ -1,0 +1,39 @@
+.root {
+  @apply border border-transparent rounded-md transition-colors duration-200 transform-gpu;
+
+  &:disabled {
+    @apply cursor-default bg-gray-400 text-gray-600;
+  }
+}
+
+.variantPrimary {
+  @apply bg-primary text-white;
+
+  &:hover {
+    @apply bg-white text-primary border-primary;
+  }
+}
+
+.variantOutlined {
+  @apply border-primary text-primary;
+
+  &:hover {
+    @apply border-transparent bg-primary text-white;
+  }
+}
+
+.sizeSmall {
+  @apply h-6 px-4 text-sm;
+}
+
+.sizeMedium {
+  @apply h-8 px-6 text-base;
+}
+
+.sizeLarge {
+  @apply h-10 px-8 text-lg;
+}
+
+.sizeXl {
+  @apply h-12 px-10 text-xl;
+}
