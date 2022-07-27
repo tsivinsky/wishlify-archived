@@ -5,7 +5,7 @@ export type ButtonProps = {
 };
 
 export const Button = React.forwardRef(
-  ({ children }: ButtonProps, ref?: React.ForwardedRef<Element>) => {
+  ({ children }: ButtonProps, ref?: React.ForwardedRef<HTMLButtonElement>) => {
     return <button ref={ref}>{children}</button>;
   }
 );
