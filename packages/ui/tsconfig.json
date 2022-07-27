@@ -1,0 +1,5 @@
+{
+  "extends": "@wishlify/tsconfig/react-lib.json",
+  "include": ["./src/**/*.tsx", "./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

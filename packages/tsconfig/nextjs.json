@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "declaration": false,
+    "declarationMap": false,
+    "target": "ES5",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "module": "ESNext",
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "useUnknownInCatchVariables": true
+  },
+  "include": ["next-env.d.ts", "src"],
+  "exclude": ["node_modules"]
+}

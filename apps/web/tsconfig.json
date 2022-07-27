@@ -1,0 +1,12 @@
+{
+  "extends": "@wishlify/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
+  },
+  "include": ["next-env.d.ts", "./src/**/*.tsx", "./src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

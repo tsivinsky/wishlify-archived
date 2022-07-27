@@ -1,0 +1,21 @@
+{
+  "name": "wishlify",
+  "version": "0.0.0",
+  "repository": "https://github.com/tsivinsky/wishlify",
+  "author": {
+    "name": "Daniil Tsivinsky",
+    "url": "https://tsivinsky.com",
+    "email": "daniil@tsivinsky.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "web:dev": "yarn workspace web dev",
+    "web:build": "yarn workspace web build",
+    "web:start": "yarn workspace web start"
+  }
+}
