@@ -14,6 +14,7 @@
     "@wishlify/tsconfig": "*",
     "@wishlify/ui": "*",
     "clsx": "^1.1.1",
+    "framer-motion": "^6.5.1",
     "next": "^12.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
