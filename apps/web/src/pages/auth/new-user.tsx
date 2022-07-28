@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 import { Button, Input, Panel } from "@wishlify/ui";
 
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
 import { PrimaryLayout } from "@/layouts/PrimaryLayout";
@@ -15,6 +16,22 @@ type UsernameForm = {
 const NewUserPage: Page = () => {
   const router = useRouter();
 
+  const checkUsernameMutation = useMutation(async (username: string) => {
+    const resp = await fetch("/api/check-username", {
+      method: "POST",
+      body: JSON.stringify({ username }),
+    });
+    return (await resp.json()) as { ok: boolean };
+  });
+
+  const updateUserMutation = useMutation(async (username: string) => {
+    const resp = await fetch("/api/user", {
+      method: "PATCH",
+      body: JSON.stringify({ username }),
+    });
+    return await resp.json();
+  });
+
   const {
     handleSubmit,
     register,
@@ -23,11 +40,7 @@ const NewUserPage: Page = () => {
   } = useForm<UsernameForm>();
 
   const onSubmit = async (data: UsernameForm) => {
-    const resp = await fetch("/api/check-username", {
-      method: "POST",
-      body: JSON.stringify({ username: data.username }),
-    });
-    const result: { ok: boolean } = await resp.json();
+    const result = await checkUsernameMutation.mutateAsync(data.username);
 
     if (!result.ok) {
       return setError("username", {
@@ -36,10 +49,7 @@ const NewUserPage: Page = () => {
     }
 
     try {
-      await fetch("/api/user", {
-        method: "PATCH",
-        body: JSON.stringify({ username: data.username }),
-      }).then((resp) => resp.json());
+      await updateUserMutation.mutateAsync(data.username);
 
       router.push("/");
     } catch (err) {}
@@ -66,7 +76,13 @@ const NewUserPage: Page = () => {
             helperText={errors.username?.message}
             {...register("username", { required: "Обязательное поле" })}
           />
-          <Button type="submit" className="mt-3">
+          <Button
+            type="submit"
+            className="mt-3"
+            loading={
+              checkUsernameMutation.isLoading || updateUserMutation.isLoading
+            }
+          >
             Сохранить
           </Button>
         </form>
