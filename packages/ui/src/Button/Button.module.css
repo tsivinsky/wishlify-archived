@@ -2,7 +2,7 @@
   @apply border border-transparent rounded-md transition-colors duration-200 transform-gpu;
 
   &:disabled {
-    @apply cursor-default bg-gray-400 text-gray-600;
+    @apply !cursor-default !bg-gray-400 !text-gray-600;
   }
 }
 

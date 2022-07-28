@@ -29,6 +29,7 @@ export type ButtonSize = keyof typeof sizeClasses;
 export type ButtonOwnProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  loading?: boolean;
 };
 
 export type ButtonProps<
@@ -47,6 +48,8 @@ export const Button: ButtonType = React.forwardRef(
       variant = "primary",
       size = "medium",
       className: additionalClassName,
+      loading = false,
+      disabled,
       children,
       ...props
     }: PolymorphicPropsWithoutRef<ButtonOwnProps, E>,
@@ -64,7 +67,12 @@ export const Button: ButtonType = React.forwardRef(
     }, [additionalClassName, variant, size]);
 
     return (
-      <Element ref={ref} className={className} {...props}>
+      <Element
+        ref={ref}
+        className={className}
+        disabled={disabled === undefined ? loading : disabled}
+        {...props}
+      >
         {children}
       </Element>
     );
