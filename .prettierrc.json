@@ -10,7 +10,7 @@
   "importOrder": [
     "^(react)(/(.*))?$",
     "^(next)(/(.*))?$",
-    "^ui(/(.*)?)$",
+    "^@wishlify(/(.*))?$",
     "<THIRD_PARTY_MODULES>",
     "^@/api/(.*)$",
     "^@/stores/(.*)$",
