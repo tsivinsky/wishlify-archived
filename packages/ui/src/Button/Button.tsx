@@ -30,6 +30,7 @@ export type ButtonOwnProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
   loading?: boolean;
+  disabled?: boolean;
 };
 
 export type ButtonProps<
