@@ -6,3 +6,5 @@ declare module "*.module.css" {
 
 export * from "./Button";
 export * from "./Checkbox";
+export * from "./Panel";
+export * from "./Input";

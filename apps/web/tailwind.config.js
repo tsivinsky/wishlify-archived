@@ -7,6 +7,11 @@ module.exports = {
         primary: "#306fcb",
         "primary-light": "#cadaf2",
       },
+      fontFamily: {
+        sans: ["Roboto"],
+        outfit: ["Outfit"],
+        roboto: ["Roboto"],
+      },
     },
   },
   plugins: [],

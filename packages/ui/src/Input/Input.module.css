@@ -1,0 +1,87 @@
+.root {
+  @apply w-full;
+}
+
+.input {
+  @apply border rounded w-full !outline-none transition-colors duration-200 transform-gpu;
+
+  &:disabled {
+    @apply bg-gray-100 cursor-default;
+  }
+
+  &::placeholder {
+    @apply font-outfit;
+  }
+}
+
+.label {
+  @apply ml-1 select-none;
+}
+
+.helperText {
+  @apply font-light;
+}
+
+.colorPrimary {
+  .input {
+    &:hover {
+      @apply bg-gray-50;
+    }
+
+    &:focus {
+      @apply bg-gray-50 border-primary;
+    }
+  }
+}
+
+.colorError {
+  .input {
+    @apply border-red-500;
+  }
+
+  .helperText {
+    @apply text-red-500;
+  }
+}
+
+.sizeSmall {
+  .input {
+    @apply h-6 px-2 text-xs;
+  }
+
+  .label {
+    @apply text-xs;
+  }
+
+  .helperText {
+    @apply text-xs;
+  }
+}
+
+.sizeMedium {
+  .input {
+    @apply h-8 px-3 text-base;
+  }
+
+  .label {
+    @apply text-sm;
+  }
+
+  .helperText {
+    @apply text-xs;
+  }
+}
+
+.sizeLarge {
+  .input {
+    @apply h-10 px-4 text-base;
+  }
+
+  .label {
+    @apply text-sm;
+  }
+
+  .helperText {
+    @apply text-xs;
+  }
+}
