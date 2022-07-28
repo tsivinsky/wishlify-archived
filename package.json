@@ -16,6 +16,7 @@
   "scripts": {
     "web:dev": "yarn workspace web dev",
     "web:build": "yarn workspace web build",
-    "web:start": "yarn workspace web start"
+    "web:start": "yarn workspace web start",
+    "web": "yarn workspace web"
   }
 }

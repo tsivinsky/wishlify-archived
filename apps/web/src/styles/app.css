@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+:root {
+  --header-height: 69px;
+}
+
+@layer utilities {
+  .h-header {
+    height: var(--header-height);
+  }
+
+  .min-h-screen-without-header {
+    min-height: calc(100vh - var(--header-height));
+  }
+}
