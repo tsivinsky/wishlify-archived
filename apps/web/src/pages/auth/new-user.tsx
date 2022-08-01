@@ -2,8 +2,10 @@ import { useRouter } from "next/router";
 
 import { Button, Input, Panel } from "@wishlify/ui";
 
-import { useMutation } from "@tanstack/react-query";
+import { TRPCError } from "@trpc/server";
 import { useForm } from "react-hook-form";
+
+import { trpc } from "@/utils/trpc";
 
 import { PrimaryLayout } from "@/layouts/PrimaryLayout";
 
@@ -16,21 +18,7 @@ type UsernameForm = {
 const NewUserPage: Page = () => {
   const router = useRouter();
 
-  const checkUsernameMutation = useMutation(async (username: string) => {
-    const resp = await fetch("/api/check-username", {
-      method: "POST",
-      body: JSON.stringify({ username }),
-    });
-    return (await resp.json()) as { ok: boolean };
-  });
-
-  const updateUserMutation = useMutation(async (username: string) => {
-    const resp = await fetch("/api/user", {
-      method: "PATCH",
-      body: JSON.stringify({ username }),
-    });
-    return await resp.json();
-  });
+  const updateUsername = trpc.useMutation(["update-username"]);
 
   const {
     handleSubmit,
@@ -40,19 +28,14 @@ const NewUserPage: Page = () => {
   } = useForm<UsernameForm>();
 
   const onSubmit = async (data: UsernameForm) => {
-    const result = await checkUsernameMutation.mutateAsync(data.username);
-
-    if (!result.ok) {
-      return setError("username", {
-        message: "Никнейм уже занят",
-      });
-    }
-
     try {
-      await updateUserMutation.mutateAsync(data.username);
+      await updateUsername.mutateAsync({ username: data.username });
 
       router.push("/");
-    } catch (err) {}
+    } catch (err) {
+      const error = err as TRPCError;
+      setError("username", { message: error.message });
+    }
   };
 
   return (
@@ -79,9 +62,7 @@ const NewUserPage: Page = () => {
           <Button
             type="submit"
             className="mt-3"
-            loading={
-              checkUsernameMutation.isLoading || updateUserMutation.isLoading
-            }
+            loading={updateUsername.isLoading}
           >
             Сохранить
           </Button>

@@ -8,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 
 import { Page } from "@/types/Page";
@@ -39,4 +40,15 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
   );
 }
 
-export default WishlifyApp;
+export default withTRPC({
+  config() {
+    const url = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api/trpc/`
+      : "http://localhost:3000/api/trpc";
+
+    return {
+      url,
+    };
+  },
+  ssr: true,
+})(WishlifyApp);
