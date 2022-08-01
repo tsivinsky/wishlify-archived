@@ -8,7 +8,7 @@
   "endOfLine": "lf",
   "trailingComma": "es5",
   "importOrder": [
-    "^(react)(/(.*))?$",
+    "^(react(-dom)?)(/(.*))?$",
     "^(next)(/(.*))?$",
     "^@wishlify(/(.*))?$",
     "<THIRD_PARTY_MODULES>",
