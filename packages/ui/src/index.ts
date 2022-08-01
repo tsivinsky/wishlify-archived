@@ -8,3 +8,5 @@ export * from "./Button";
 export * from "./Checkbox";
 export * from "./Panel";
 export * from "./Input";
+export * from "./Popover";
+export * from "./UserAvatar";
