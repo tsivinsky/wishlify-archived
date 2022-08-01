@@ -23,14 +23,23 @@ const sizeClasses = {
   xl: classes.sizeXl,
 };
 
+const colorClasses = {
+  blue: classes.colorBlue,
+  gray: classes.colorGray,
+};
+
 export type ButtonVariant = keyof typeof variantClasses;
 export type ButtonSize = keyof typeof sizeClasses;
+export type ButtonColor = keyof typeof colorClasses;
 
 export type ButtonOwnProps = {
   variant?: ButtonVariant;
   size?: ButtonSize;
+  color?: ButtonColor;
   loading?: boolean;
   disabled?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: "left" | "right";
 };
 
 export type ButtonProps<
@@ -48,9 +57,12 @@ export const Button: ButtonType = React.forwardRef(
       as,
       variant = "primary",
       size = "medium",
+      color = "blue",
       className: additionalClassName,
       loading = false,
       disabled,
+      icon,
+      iconPosition = "left",
       children,
       ...props
     }: PolymorphicPropsWithoutRef<ButtonOwnProps, E>,
@@ -62,10 +74,14 @@ export const Button: ButtonType = React.forwardRef(
       return clsx(
         additionalClassName,
         classes.root,
-        variantClasses[variant],
-        sizeClasses[size]
+        sizeClasses[size],
+        colorClasses[color],
+        {
+          [variantClasses[variant]]: as !== "a",
+          [classes.variantLink]: as === "a",
+        }
       );
-    }, [additionalClassName, variant, size]);
+    }, [as, additionalClassName, variant, size, color]);
 
     return (
       <Element
@@ -74,7 +90,9 @@ export const Button: ButtonType = React.forwardRef(
         disabled={disabled === undefined ? loading : disabled}
         {...props}
       >
+        {icon && iconPosition === "left" && <>{icon}</>}
         {children}
+        {icon && iconPosition === "right" && <>{icon}</>}
       </Element>
     );
   }

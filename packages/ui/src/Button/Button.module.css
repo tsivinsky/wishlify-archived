@@ -1,5 +1,5 @@
 .root {
-  @apply border border-transparent rounded-md transition-colors duration-200 transform-gpu;
+  @apply flex justify-center items-center gap-2 rounded-md transition-colors duration-200 transform-gpu;
 
   &:disabled {
     @apply !cursor-default !bg-gray-400 !text-gray-600;
@@ -7,18 +7,66 @@
 }
 
 .variantPrimary {
-  @apply bg-primary text-white;
-
-  &:hover {
-    @apply bg-white text-primary border-primary;
-  }
+  @apply border border-transparent;
 }
 
 .variantOutlined {
-  @apply border-primary text-primary;
+  @apply border;
+}
 
-  &:hover {
-    @apply border-transparent bg-primary text-white;
+.variantLink {
+  @apply border-none !px-1;
+}
+
+.colorBlue {
+  &.variantPrimary {
+    @apply bg-primary text-white;
+
+    &:hover {
+      @apply bg-white text-primary border-primary;
+    }
+  }
+
+  &.variantOutlined {
+    @apply border-primary text-primary;
+
+    &:hover {
+      @apply border-transparent bg-primary text-white;
+    }
+  }
+
+  &.variantLink {
+    @apply text-primary;
+
+    &:hover {
+      @apply underline;
+    }
+  }
+}
+
+.colorGray {
+  &.variantPrimary {
+    @apply bg-gray-200 text-gray-700;
+
+    &:hover {
+      @apply bg-white text-gray-700 border-gray-700;
+    }
+  }
+
+  &.variantOutlined {
+    @apply border-gray-700 text-gray-700;
+
+    &:hover {
+      @apply border-transparent bg-gray-200 text-gray-700;
+    }
+  }
+
+  &.variantLink {
+    @apply text-gray-700;
+
+    &:hover {
+      @apply underline;
+    }
   }
 }
 
