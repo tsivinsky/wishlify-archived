@@ -1,0 +1,19 @@
+.backdrop {
+  @apply fixed z-modalBackdrop inset-0 flex justify-center items-center bg-white/30 backdrop-blur;
+}
+
+.variantPlain {
+  @apply bg-white;
+}
+
+.sizeSmall {
+  @apply p-2 rounded shadow;
+}
+
+.sizeMedium {
+  @apply p-4 rounded-xl shadow-md;
+}
+
+.sizeLarge {
+  @apply p-6 rounded-2xl shadow-lg;
+}

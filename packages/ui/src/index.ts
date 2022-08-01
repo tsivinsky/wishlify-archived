@@ -10,3 +10,4 @@ export * from "./Panel";
 export * from "./Input";
 export * from "./Popover";
 export * from "./UserAvatar";
+export * from "./Modal";
