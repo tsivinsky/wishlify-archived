@@ -9,7 +9,7 @@ export const HeaderUserMenu: React.FC = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <h2>{session?.user?.email}</h2>
+      <h2>{session?.user.username}</h2>
       <Button onClick={() => signOut()} variant="outlined" size="small">
         Выйти
       </Button>

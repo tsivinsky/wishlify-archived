@@ -25,15 +25,10 @@ export const appRouter = trpc.router<Context>().mutation("update-username", {
     }
 
     const session = await unstable_getServerSession(req, res, authOptions);
-    const user = await prisma.user.findFirst({
-      where: { email: session?.user?.email },
-    });
-
-    // TODO: save user id in session and remove getting user from database here
 
     const updatedUser = await prisma.user.update({
       data: { username: input.username },
-      where: { id: user?.id },
+      where: { id: session?.user?.id },
     });
 
     return {

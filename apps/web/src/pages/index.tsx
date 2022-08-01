@@ -12,7 +12,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 const HomePage: Page = () => {
   const { data: session } = useSession();
 
-  return <div>{session && <h2>Привет, {session.user?.email}</h2>}</div>;
+  return <div>{session && <h2>Привет, {session.user?.username}</h2>}</div>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

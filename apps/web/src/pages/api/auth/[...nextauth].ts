@@ -27,6 +27,22 @@ export const authOptions: NextAuthOptions = {
     verifyRequest: "/auth/verify",
     newUser: "/auth/new-user",
   },
+  callbacks: {
+    async session({ session, user }) {
+      const userInDb = await prisma.user.findFirst({ where: { id: user.id } });
+      if (!userInDb) return session;
+
+      return {
+        ...session,
+        user: {
+          id: user.id,
+          username: userInDb.username,
+          email: userInDb.email,
+          emailVerified: userInDb.emailVerified,
+        },
+      };
+    },
+  },
 };
 
 export default NextAuth(authOptions);
