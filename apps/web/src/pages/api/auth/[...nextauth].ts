@@ -39,6 +39,7 @@ export const authOptions: NextAuthOptions = {
           username: userInDb.username,
           email: userInDb.email,
           emailVerified: userInDb.emailVerified,
+          avatar: userInDb.avatar,
         },
       };
     },

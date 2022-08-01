@@ -26,6 +26,7 @@
     "next": "^12.2.0",
     "next-auth": "^4.10.2",
     "nodemailer": "^6.7.7",
+    "phosphor-react": "^1.4.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-hook-form": "^7.33.1",
