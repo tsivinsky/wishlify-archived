@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = () => {
   const { status } = useSession();
 
   return (
-    <header className="px-2 md:px-5 flex justify-between items-center h-header shadow-md">
+    <header className="px-2 md:px-5 sticky z-sticky left-0 right-0 top-0 flex justify-between items-center h-header shadow-md">
       <Link href="/" passHref>
         <a>
           <h1 className="text-2xl font-semibold font-outfit">Wishlify</h1>
