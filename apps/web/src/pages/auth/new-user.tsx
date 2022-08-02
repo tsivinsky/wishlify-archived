@@ -18,7 +18,7 @@ type UsernameForm = {
 const NewUserPage: Page = () => {
   const router = useRouter();
 
-  const updateUsername = trpc.useMutation(["update-username"]);
+  const updateUsername = trpc.useMutation(["user.update-username"]);
 
   const {
     handleSubmit,

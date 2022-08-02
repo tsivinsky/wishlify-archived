@@ -35,13 +35,14 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String     @id @default(cuid())
+  email         String     @unique
   emailVerified DateTime?
-  username      String?   @unique
+  username      String?    @unique
   avatar        String?
   accounts      Account[]
   sessions      Session[]
+  Wishlist      Wishlist[]
 }
 
 model VerificationToken {
@@ -50,4 +51,14 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Wishlist {
+  id          String   @id @default(cuid())
+  name        String
+  displayName String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 }
