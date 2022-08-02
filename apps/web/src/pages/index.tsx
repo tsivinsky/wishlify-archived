@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
-import { PrimaryLayout } from "@/layouts/PrimaryLayout";
+import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
 
@@ -36,6 +36,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-HomePage.getLayout = (page) => <PrimaryLayout>{page}</PrimaryLayout>;
+HomePage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default HomePage;

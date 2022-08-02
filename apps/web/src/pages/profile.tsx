@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 
-import { PrimaryLayout } from "@/layouts/PrimaryLayout";
+import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
 
@@ -14,6 +14,6 @@ const ProfilePage: Page = () => {
   );
 };
 
-ProfilePage.getLayout = (page) => <PrimaryLayout>{page}</PrimaryLayout>;
+ProfilePage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default ProfilePage;
