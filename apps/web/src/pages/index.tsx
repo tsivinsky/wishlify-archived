@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 
 import { Button, Input } from "@wishlify/ui";
 
@@ -9,6 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { trpc } from "@/utils/trpc";
 
+import { WishlistCard } from "@/components/specific/WishlistCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
@@ -26,12 +26,7 @@ const HomePage: Page = () => {
 
   const createWishlist = trpc.useMutation(["wishlists.create"]);
 
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  } = useForm<CreateWishlistForm>();
+  const { handleSubmit, register, reset } = useForm<CreateWishlistForm>();
 
   const onSubmit = async (data: CreateWishlistForm) => {
     await createWishlist.mutateAsync({ name: data.name });
@@ -54,24 +49,18 @@ const HomePage: Page = () => {
         <Input
           type="text"
           placeholder="Awesome wishlist name"
-          error={!!errors.name}
-          helperText={errors.name?.message}
-          {...register("name", { required: "Обязательное поле" })}
+          {...register("name")}
         />
         <Button type="submit">Создать</Button>
       </form>
 
-      <div className="mt-4">
+      <div className="mt-4 flex flex-wrap gap-4">
         {wishlists.data?.map((wishlist) => (
-          <Link
+          <WishlistCard
             key={wishlist.id}
-            href={`/${session?.user.username}/${wishlist.displayName}`}
-            passHref
-          >
-            <a className="block">
-              <h3>{wishlist.name}</h3>
-            </a>
-          </Link>
+            wishlist={wishlist}
+            link={`/${session?.user.username}/${wishlist.displayName}`}
+          />
         ))}
       </div>
     </div>
