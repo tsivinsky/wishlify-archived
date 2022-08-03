@@ -9,5 +9,6 @@ export * from "./Checkbox";
 export * from "./Panel";
 export * from "./Input";
 export * from "./Popover";
+export * from "./PopoverMenu";
 export * from "./UserAvatar";
 export * from "./Modal";
