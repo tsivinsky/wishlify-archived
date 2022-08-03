@@ -1,4 +1,7 @@
-const withTM = require("next-transpile-modules")(["@wishlify/ui"]);
+const withTM = require("next-transpile-modules")([
+  "@wishlify/ui",
+  "@wishlify/lib",
+]);
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
