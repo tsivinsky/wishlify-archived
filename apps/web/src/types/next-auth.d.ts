@@ -6,7 +6,7 @@ declare module "next-auth" {
       id: string;
       username: string | null;
       email: string | null;
-      emailVerified: Date | null;
+      emailVerified: string | null;
       avatar: string | null;
     };
   }

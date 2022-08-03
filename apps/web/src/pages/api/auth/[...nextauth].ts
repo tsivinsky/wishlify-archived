@@ -38,7 +38,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           username: userInDb.username,
           email: userInDb.email,
-          emailVerified: userInDb.emailVerified,
+          emailVerified: userInDb.emailVerified?.toISOString() || null,
           avatar: userInDb.avatar,
         },
       };
