@@ -23,7 +23,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   const [isChecked, setIsChecked] = useState(false);
 
   useEffect(() => {
-    if (!checked) return;
+    if (typeof checked === "undefined") return;
 
     setIsChecked(checked);
   }, [checked]);
