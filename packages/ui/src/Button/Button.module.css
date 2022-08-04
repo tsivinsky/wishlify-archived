@@ -14,10 +14,6 @@
   @apply border;
 }
 
-.variantLink {
-  @apply border-none !px-1;
-}
-
 .colorBlue {
   &.variantPrimary {
     @apply bg-primary text-white;
@@ -32,14 +28,6 @@
 
     &:hover {
       @apply border-transparent bg-primary text-white;
-    }
-  }
-
-  &.variantLink {
-    @apply text-primary;
-
-    &:hover {
-      @apply underline;
     }
   }
 }
@@ -58,14 +46,6 @@
 
     &:hover {
       @apply border-transparent bg-gray-200 text-gray-700;
-    }
-  }
-
-  &.variantLink {
-    @apply text-gray-700;
-
-    &:hover {
-      @apply underline;
     }
   }
 }

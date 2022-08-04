@@ -76,12 +76,9 @@ export const Button: ButtonType = React.forwardRef(
         classes.root,
         sizeClasses[size],
         colorClasses[color],
-        {
-          [variantClasses[variant]]: as !== "a",
-          [classes.variantLink]: as === "a",
-        }
+        variantClasses[variant]
       );
-    }, [as, additionalClassName, variant, size, color]);
+    }, [additionalClassName, variant, size, color]);
 
     return (
       <Element
