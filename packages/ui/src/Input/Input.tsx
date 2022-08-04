@@ -76,6 +76,12 @@ export const Input: InputType = React.forwardRef(
       );
     }, [additionalClassName, color, error, size]);
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+      }
+    };
+
     return (
       <div className={rootClassName}>
         {label && (
@@ -87,6 +93,7 @@ export const Input: InputType = React.forwardRef(
           ref={ref}
           id={id}
           className={clsx(classes.input, inputClassName)}
+          onKeyDown={handleKeyDown}
           {...props}
         />
         <AnimatePresence exitBeforeEnter>
