@@ -71,7 +71,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         </AnimatePresence>
       </svg>
       {label && (
-        <label className={clsx("cursor-pointer", labelClassName)}>
+        <label className={clsx("cursor-pointer text-left", labelClassName)}>
           {label}
         </label>
       )}
