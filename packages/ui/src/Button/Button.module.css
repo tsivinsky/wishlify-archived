@@ -54,6 +54,24 @@
   }
 }
 
+.colorRed {
+  &.variantPrimary {
+    @apply bg-red-200 text-red-700;
+
+    &:hover {
+      @apply bg-white text-red-700 border-red-700;
+    }
+  }
+
+  &.variantOutlined {
+    @apply border-red-700 text-red-700;
+
+    &:hover {
+      @apply border-transparent bg-red-200 text-red-700;
+    }
+  }
+}
+
 .sizeSmall {
   @apply h-6 px-4 text-sm;
 }
