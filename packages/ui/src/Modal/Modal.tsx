@@ -122,11 +122,12 @@ export const Modal: React.FC<ModalProps> = ({
                       <h2 className="font-semibold text-xl">{title}</h2>
                     )}
                     {withCloseButton && (
-                      <XCircle
-                        size={28}
-                        className="cursor-pointer"
+                      <button
+                        className="rounded-full p-0.5"
                         onClick={() => onClose()}
-                      />
+                      >
+                        <XCircle size={28} />
+                      </button>
                     )}
                   </div>
                 )}
