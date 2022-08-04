@@ -25,11 +25,12 @@ const HomePage: Page = () => {
   const wishlists = trpc.useQuery(["wishlists.get-all"]);
   const createWishlist = trpc.useMutation(["wishlists.create"]);
 
-  const { openNewWishlistModal } = useNewWishlistModal();
+  const { openNewWishlistModal, closeNewWishlistModal } = useNewWishlistModal();
 
   const onSubmit = async (data: CreateWishlistForm) => {
     await createWishlist.mutateAsync(data);
     await wishlists.refetch();
+    closeNewWishlistModal();
   };
 
   return (
