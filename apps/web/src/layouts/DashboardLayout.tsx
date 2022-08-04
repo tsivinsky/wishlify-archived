@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Header, HeaderProps } from "@/components/specific/Header";
+import { Header, HeaderProps } from "@/components/Header";
 
 import { PrimaryLayout } from "./PrimaryLayout";
 

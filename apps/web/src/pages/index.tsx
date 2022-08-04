@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { trpc } from "@/utils/trpc";
 
-import { WishlistCard } from "@/components/specific/WishlistCard";
+import { WishlistCard } from "@/components/WishlistCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
