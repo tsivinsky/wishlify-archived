@@ -43,7 +43,7 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
       isOpen={isNewWishlistModalOpen}
       onClose={closeNewWishlistModal}
       title="Новый вишлист"
-      className="w-full md:w-[400px]"
+      className="w-[90%] sm:w-[400px]"
       beforeClose={() => form.reset()}
     >
       <form
@@ -62,7 +62,9 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
           onCheckedChange={(checked) => form.setValue("private", checked)}
           label="Сделать вишлист приватным"
         />
-        <Button type="submit">Создать</Button>
+        <Button type="submit" className="w-full">
+          Создать
+        </Button>
       </form>
     </Modal>
   );
