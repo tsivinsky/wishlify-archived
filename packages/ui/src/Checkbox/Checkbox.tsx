@@ -41,6 +41,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       onClick={toggle}
       role="checkbox"
       aria-checked={isChecked}
+      tabIndex={-1}
     >
       <svg
         style={{ width: size, height: size }}
@@ -50,6 +51,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         height="100%"
         fill="#000000"
         viewBox="0 0 256 256"
+        tabIndex={0}
       >
         <AnimatePresence exitBeforeEnter>
           {isChecked && (
