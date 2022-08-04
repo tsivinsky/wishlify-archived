@@ -38,6 +38,11 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
     },
   });
 
+  const _onSubmit = (data: CreateWishlistForm) => {
+    form.reset();
+    onSubmit(data);
+  };
+
   return (
     <Modal
       isOpen={isNewWishlistModalOpen}
@@ -47,7 +52,7 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
       beforeClose={() => form.reset()}
     >
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(_onSubmit)}
         className="flex flex-col gap-4 items-start mt-4"
       >
         <Input
