@@ -1,5 +1,5 @@
 .root {
-  @apply block transition duration-300 transform-gpu;
+  @apply transition duration-300 transform-gpu;
 }
 
 .variantPlain {
