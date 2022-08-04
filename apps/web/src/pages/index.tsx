@@ -112,7 +112,13 @@ const HomePage: Page = () => {
           </Button>
         </div>
       </div>
-      <div className="mt-4 grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-4">
+      <div
+        className={clsx("mt-4 gap-4", {
+          "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]":
+            (wishlists?.data?.length ?? 0) >= 6,
+          "flex flex-wrap": (wishlists?.data?.length ?? 0) < 6,
+        })}
+      >
         {wishlists.data?.map((wishlist) => (
           <WishlistCard
             key={wishlist.id}
