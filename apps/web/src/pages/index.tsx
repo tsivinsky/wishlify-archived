@@ -1,7 +1,13 @@
+import { useState } from "react";
+
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 import { Button } from "@wishlify/ui";
 
+import { Wishlist } from "@prisma/client";
+import clsx from "clsx";
+import { AnimatePresence, motion } from "framer-motion";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
@@ -22,15 +28,42 @@ import { authOptions } from "./api/auth/[...nextauth]";
 const HomePage: Page = () => {
   const { data: session } = useSession();
 
+  const router = useRouter();
+
   const wishlists = trpc.useQuery(["wishlists.get-all"]);
   const createWishlist = trpc.useMutation(["wishlists.create"]);
+  const deleteWishlists = trpc.useMutation(["wishlists.delete"]);
 
   const { openNewWishlistModal, closeNewWishlistModal } = useNewWishlistModal();
+
+  const [selectedWishlists, setSelectedWishlists] = useState<string[]>([]);
+  const toggleSelectedWishlist = (wishlistId: string) => {
+    if (selectedWishlists.includes(wishlistId)) {
+      setSelectedWishlists((prev) => prev.filter((id) => id !== wishlistId));
+    } else {
+      setSelectedWishlists((prev) => [...prev, wishlistId]);
+    }
+  };
 
   const onSubmit = async (data: CreateWishlistForm) => {
     await createWishlist.mutateAsync(data);
     await wishlists.refetch();
     closeNewWishlistModal();
+  };
+
+  const handleClickOnCard = (e: React.MouseEvent, wishlist: Wishlist) => {
+    if (e.ctrlKey || selectedWishlists.length > 0) {
+      toggleSelectedWishlist(wishlist.id);
+    } else {
+      const wishlistLink = `/${session?.user.username}/${wishlist.displayName}`;
+      router.push(wishlistLink);
+    }
+  };
+
+  const handleDeleteSelectedWishlists = async () => {
+    await deleteWishlists.mutateAsync({ wishlists: selectedWishlists });
+    setSelectedWishlists([]);
+    await wishlists.refetch();
   };
 
   return (
@@ -41,14 +74,55 @@ const HomePage: Page = () => {
         <h2 className="text-2xl font-medium">
           Привет, {session?.user?.username}
         </h2>
-        <Button onClick={() => openNewWishlistModal()}>Создать вишлист</Button>
+        <div className="flex gap-4 items-center">
+          <AnimatePresence exitBeforeEnter>
+            {selectedWishlists.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 3 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 3 }}
+                transition={{ type: "tween" }}
+                className="flex items-center gap-4"
+              >
+                <Button color="red" onClick={handleDeleteSelectedWishlists}>
+                  Удалить
+                </Button>
+                <div className="bg-blue-100 text-blue-800 rounded-md px-2 py-1">
+                  <div className="flex gap-1 overflow-hidden">
+                    Выбрано:
+                    <AnimatePresence exitBeforeEnter initial={false}>
+                      <motion.div
+                        key={selectedWishlists.length}
+                        initial={{ y: 20 }}
+                        animate={{ y: 0 }}
+                        exit={{ y: -20 }}
+                        transition={{ type: "tween" }}
+                        className="w-[2ch] flex justify-end"
+                      >
+                        {selectedWishlists.length}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <Button onClick={() => openNewWishlistModal()}>
+            Создать вишлист
+          </Button>
+        </div>
       </div>
       <div className="mt-4 grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-4">
         {wishlists.data?.map((wishlist) => (
           <WishlistCard
             key={wishlist.id}
             wishlist={wishlist}
-            link={`/${session?.user.username}/${wishlist.displayName}`}
+            className={clsx({
+              "!border-primary/80 shadow-none": selectedWishlists.includes(
+                wishlist.id
+              ),
+            })}
+            onClick={(e) => handleClickOnCard(e, wishlist)}
           />
         ))}
       </div>

@@ -57,4 +57,22 @@ export const wishlistRouter = createRouter()
 
       return wishlist;
     },
+  })
+  .mutation("delete", {
+    input: z.object({
+      wishlists: z.array(z.string()),
+    }),
+    async resolve({ ctx, input }) {
+      try {
+        const deletedWishlists = await ctx.prisma.wishlist.deleteMany({
+          where: { id: { in: input.wishlists } },
+        });
+        return deletedWishlists;
+      } catch (err) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: String(err),
+        });
+      }
+    },
   });
