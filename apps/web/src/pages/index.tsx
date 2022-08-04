@@ -37,13 +37,13 @@ const HomePage: Page = () => {
     <div>
       <NewWishlistModal onSubmit={onSubmit} />
 
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-2 justify-between sm:flex-row sm:items-center">
         <h2 className="text-2xl font-medium">
           Привет, {session?.user?.username}
         </h2>
         <Button onClick={() => openNewWishlistModal()}>Создать вишлист</Button>
       </div>
-      <div className="mt-4 flex flex-wrap gap-4">
+      <div className="mt-4 grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] gap-4">
         {wishlists.data?.map((wishlist) => (
           <WishlistCard
             key={wishlist.id}
