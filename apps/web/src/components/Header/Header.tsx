@@ -14,23 +14,25 @@ export const Header: React.FC<HeaderProps> = () => {
   const { status } = useSession();
 
   return (
-    <header className="px-2 md:px-5 bg-white sticky z-sticky left-0 right-0 top-0 flex justify-between items-center h-header shadow-md">
-      <Link href="/" passHref>
-        <a>
-          <h1 className="text-2xl font-semibold font-outfit">Wishlify</h1>
-        </a>
-      </Link>
-      <div>
-        {status === "authenticated" && <HeaderUserMenu />}
-        {status === "unauthenticated" && (
-          <Button
-            variant="outlined"
-            size="small"
-            onClick={() => signIn("email")}
-          >
-            Войти
-          </Button>
-        )}
+    <header className="px-3 bg-white sticky z-sticky left-0 right-0 top-0 h-header shadow-md">
+      <div className="flex justify-between items-center max-w-screen-xl mx-auto h-full">
+        <Link href="/" passHref>
+          <a>
+            <h1 className="text-2xl font-semibold font-outfit">Wishlify</h1>
+          </a>
+        </Link>
+        <div>
+          {status === "authenticated" && <HeaderUserMenu />}
+          {status === "unauthenticated" && (
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => signIn("email")}
+            >
+              Войти
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );
