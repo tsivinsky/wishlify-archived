@@ -30,6 +30,7 @@ export type ModalProps = {
   backdropClassName?: string;
   title?: string;
   withCloseButton?: boolean;
+  beforeClose?: () => void;
   children: React.ReactNode;
 };
 
@@ -42,6 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
   backdropClassName: additionalBackdropClassName,
   title,
   withCloseButton = true,
+  beforeClose,
   children,
 }) => {
   const [, setScrollLocked] = useScrollLock();
@@ -72,10 +74,15 @@ export const Modal: React.FC<ModalProps> = ({
     };
   }, [isOpen, setScrollLocked]);
 
+  const closeModal = () => {
+    beforeClose?.();
+    onClose();
+  };
+
   useEffect(() => {
     const closeOnEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        closeModal();
       }
     };
 
@@ -88,7 +95,7 @@ export const Modal: React.FC<ModalProps> = ({
         window.removeEventListener("keydown", closeOnEscape);
       }
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   return (
     <AnimatePresence exitBeforeEnter>
@@ -100,7 +107,7 @@ export const Modal: React.FC<ModalProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className={backdropClassName}
-              onClick={() => onClose()}
+              onClick={closeModal}
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.3 }}
@@ -124,7 +131,7 @@ export const Modal: React.FC<ModalProps> = ({
                     {withCloseButton && (
                       <button
                         className="rounded-full p-0.5"
-                        onClick={() => onClose()}
+                        onClick={closeModal}
                       >
                         <XCircle size={28} />
                       </button>
