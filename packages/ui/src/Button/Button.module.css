@@ -1,8 +1,12 @@
 .root {
-  @apply flex justify-center items-center gap-2 rounded-md transition-colors duration-200 transform-gpu;
+  @apply flex justify-center items-center gap-2 rounded-md transition-all duration-200 transform-gpu;
 
   &:disabled {
     @apply !cursor-default !bg-gray-400 !text-gray-600;
+  }
+
+  &:active {
+    @apply scale-[0.95];
   }
 }
 
