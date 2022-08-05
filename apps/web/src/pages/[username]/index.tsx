@@ -43,7 +43,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
   );
 
   return (
-    <div>
+    <>
       <Head>
         <title>Wishlify | {user?.username}</title>
       </Head>
@@ -79,7 +79,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
           </WishlistCardList>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

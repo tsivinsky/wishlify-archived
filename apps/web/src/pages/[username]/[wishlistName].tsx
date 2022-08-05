@@ -40,7 +40,7 @@ const WishlistPage: Page<WishlistPageProps> = ({
   );
 
   return (
-    <div>
+    <>
       <Head>
         <title>Wishlify | {wishlist?.name}</title>
       </Head>
@@ -57,7 +57,7 @@ const WishlistPage: Page<WishlistPageProps> = ({
 
       <h3>{wishlist?.name}</h3>
       <pre>{JSON.stringify(wishlist, undefined, "  ")}</pre>
-    </div>
+    </>
   );
 };
 

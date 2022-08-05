@@ -69,7 +69,7 @@ const HomePage: Page = () => {
   };
 
   return (
-    <div>
+    <>
       <Head>
         <title>Wishlify | Главная страница</title>
       </Head>
@@ -132,7 +132,7 @@ const HomePage: Page = () => {
           />
         ))}
       </WishlistCardList>
-    </div>
+    </>
   );
 };
 

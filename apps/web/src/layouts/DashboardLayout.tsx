@@ -33,9 +33,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
-          className="min-h-screen-without-header bg-gray-50 py-6 px-4 md:py-8"
+          className="min-h-screen-without-header bg-gray-50 py-6 px-4 md:py-8 max-w-screen-xl mx-auto"
         >
-          <div className="max-w-screen-xl mx-auto">{children}</div>
+          {children}
         </motion.div>
       </AnimatePresence>
     </PrimaryLayout>
