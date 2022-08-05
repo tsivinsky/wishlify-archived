@@ -11,6 +11,8 @@ import {
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
 
+import { getAppUrl } from "@/utils/getAppUrl";
+
 import { Page } from "@/types/Page";
 
 import "@/styles/app.css";
@@ -42,9 +44,7 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
 
 export default withTRPC({
   config() {
-    const url = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/api/trpc/`
-      : "http://localhost:3000/api/trpc";
+    const url = getAppUrl();
 
     return {
       url,
