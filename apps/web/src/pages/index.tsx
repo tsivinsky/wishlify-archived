@@ -133,7 +133,9 @@ const HomePage: Page = () => {
                 wishlist.id
               ),
             })}
-            onClick={(e) => handleClickOnCard(e, wishlist)}
+            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+              handleClickOnCard(e, wishlist)
+            }
           />
         ))}
       </div>
