@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = () => {
   const { status } = useSession();
 
   return (
-    <header className="px-3 bg-white sticky z-sticky left-0 right-0 top-0 h-header shadow-md">
+    <header className="px-3 bg-white sticky z-header left-0 right-0 top-0 h-header shadow-md">
       <div className="flex justify-between items-center max-w-screen-xl mx-auto h-full">
         <Link href="/" passHref>
           <a>

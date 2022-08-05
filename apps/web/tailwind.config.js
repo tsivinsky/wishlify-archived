@@ -16,6 +16,7 @@ module.exports = {
         auto: "auto",
         dropdown: 1000,
         sticky: 1020,
+        header: 1025,
         fixed: 1030,
         modalBackdrop: 1040,
         modal: 1050,
