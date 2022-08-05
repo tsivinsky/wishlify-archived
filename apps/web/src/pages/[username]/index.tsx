@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { Panel, UserAvatar } from "@wishlify/ui";
 
@@ -12,7 +12,6 @@ import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
 import { WishlistCard } from "@/components/WishlistCard";
-import { WishlistCardList } from "@/components/WishlistCardList";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -34,6 +33,8 @@ const ProfilePage: Page<ProfilePageProps> = ({
 }) => {
   const { data: session } = useSession();
 
+  const router = useRouter();
+
   const { data: wishlists } = trpc.useQuery(
     [
       "wishlists.findByOwner",
@@ -41,6 +42,10 @@ const ProfilePage: Page<ProfilePageProps> = ({
     ],
     { initialData: initialWishlists }
   );
+
+  const handleClickOnCard = (wishlist: Wishlist) => {
+    router.push(`/${user.username}/${wishlist.displayName}`);
+  };
 
   return (
     <>
@@ -64,19 +69,16 @@ const ProfilePage: Page<ProfilePageProps> = ({
           <h2 className="text-lg font-medium">{user?.username}</h2>
         </Panel>
         <div>
-          <WishlistCardList count={wishlists?.length ?? 0}>
+          <div className="flex flex-wrap gap-4">
             {wishlists?.map((wishlist) => (
-              <Link
+              <WishlistCard
                 key={wishlist.id}
-                href={`/${user.username}/${wishlist.displayName}`}
-                passHref
-              >
-                <a className="block w-full sm:w-auto">
-                  <WishlistCard wishlist={wishlist} className="h-full" />
-                </a>
-              </Link>
+                wishlist={wishlist}
+                className="flex-grow"
+                onClick={() => handleClickOnCard(wishlist)}
+              />
             ))}
-          </WishlistCardList>
+          </div>
         </div>
       </div>
     </>
