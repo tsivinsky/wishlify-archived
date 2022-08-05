@@ -6,7 +6,7 @@ import { useRouterEvent } from "@wishlify/lib";
 import { Button, Popover, UserAvatar } from "@wishlify/ui";
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { UserCircle } from "phosphor-react";
+import { GearSix, UserCircle } from "phosphor-react";
 
 export const HeaderUserMenu: React.FC = () => {
   const { data: session } = useSession();
@@ -41,6 +41,12 @@ export const HeaderUserMenu: React.FC = () => {
               <a className="flex gap-2 items-center p-1 rounded transition-colors duration-200 hover:bg-gray-100">
                 <UserCircle size={24} />
                 <span>Профиль</span>
+              </a>
+            </Link>
+            <Link href="/account" passHref>
+              <a className="flex gap-2 items-center p-1 rounded transition-colors duration-200 hover:bg-gray-100">
+                <GearSix size={24} />
+                <span>Аккаунт</span>
               </a>
             </Link>
             <Button variant="outlined" color="gray" onClick={() => signOut()}>

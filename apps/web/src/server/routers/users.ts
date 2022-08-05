@@ -54,4 +54,16 @@ export const userRouter = createRouter()
 
       return updatedUser;
     },
+  })
+  .mutation("delete", {
+    async resolve({ ctx }) {
+      const deleteWishlists = ctx.prisma.wishlist.deleteMany({
+        where: { userId: ctx.session?.user.id },
+      });
+      const deleteUser = ctx.prisma.user.delete({
+        where: { id: ctx.session?.user.id },
+      });
+
+      await ctx.prisma.$transaction([deleteWishlists, deleteUser]);
+    },
   });
