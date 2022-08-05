@@ -71,7 +71,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
                 href={`/${user.username}/${wishlist.displayName}`}
                 passHref
               >
-                <a className="block">
+                <a className="block w-full sm:w-auto">
                   <WishlistCard wishlist={wishlist} className="h-full" />
                 </a>
               </Link>

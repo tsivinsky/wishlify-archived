@@ -113,7 +113,10 @@ const HomePage: Page = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          <Button onClick={() => openNewWishlistModal()}>
+          <Button
+            className="w-full sm:w-auto"
+            onClick={() => openNewWishlistModal()}
+          >
             Создать вишлист
           </Button>
         </div>
