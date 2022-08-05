@@ -27,6 +27,7 @@ const colorClasses = {
   blue: classes.colorBlue,
   gray: classes.colorGray,
   red: classes.colorRed,
+  uncolored: null,
 };
 
 export type ButtonVariant = keyof typeof variantClasses;
