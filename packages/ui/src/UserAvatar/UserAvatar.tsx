@@ -22,7 +22,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
   return (
     <div
       className={clsx(
-        "relative rounded-full grid place-items-center bg-blue-100",
+        "relative rounded-full grid place-items-center bg-primary/10",
         className
       )}
       style={{ width: size, height: size }}
