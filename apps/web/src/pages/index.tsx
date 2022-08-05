@@ -48,8 +48,8 @@ const HomePage: Page = () => {
 
   const onSubmit = async (data: CreateWishlistForm) => {
     await createWishlist.mutateAsync(data);
-    await wishlists.refetch();
     closeNewWishlistModal();
+    await wishlists.refetch();
   };
 
   const handleClickOnCard = (e: React.MouseEvent, wishlist: Wishlist) => {
