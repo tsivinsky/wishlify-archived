@@ -1,6 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { UserAvatar } from "@wishlify/ui";
 
@@ -33,8 +33,6 @@ const ProfilePage: Page<ProfilePageProps> = ({
 }) => {
   const { data: session } = useSession();
 
-  const router = useRouter();
-
   const { data: wishlists } = trpc.useQuery(
     [
       "wishlists.findByOwner",
@@ -42,10 +40,6 @@ const ProfilePage: Page<ProfilePageProps> = ({
     ],
     { initialData: initialWishlists }
   );
-
-  const handleClickOnCard = (wishlist: Wishlist) => {
-    router.push(`/${user.username}/${wishlist.displayName}`);
-  };
 
   return (
     <>
@@ -68,12 +62,17 @@ const ProfilePage: Page<ProfilePageProps> = ({
         <div>
           <div className="flex flex-wrap gap-4">
             {wishlists?.map((wishlist) => (
-              <WishlistCard
+              <Link
                 key={wishlist.id}
-                wishlist={wishlist}
-                className="flex-grow"
-                onClick={() => handleClickOnCard(wishlist)}
-              />
+                href={`/${user.username}/${wishlist.displayName}`}
+                passHref
+              >
+                <WishlistCard
+                  as="a"
+                  wishlist={wishlist}
+                  className="flex-grow"
+                />
+              </Link>
             ))}
           </div>
         </div>

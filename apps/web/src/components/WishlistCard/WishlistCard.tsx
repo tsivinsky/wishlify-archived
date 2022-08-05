@@ -7,15 +7,21 @@ import clsx from "clsx";
 
 import { dayjs } from "@/utils/dayjs";
 
-export type WishlistCardProps = PanelProps & {
+const WishlistCardDefaultElement = "div";
+
+export type WishlistCardProps<
+  E extends React.ElementType = typeof WishlistCardDefaultElement
+> = PanelProps<E> & {
   wishlist: Wishlist;
 };
 
-export const WishlistCard: React.FC<WishlistCardProps> = ({
+export const WishlistCard = <
+  E extends React.ElementType = typeof WishlistCardDefaultElement
+>({
   wishlist,
   className,
   ...props
-}) => {
+}: WishlistCardProps<E>) => {
   return (
     <Panel
       size="small"
