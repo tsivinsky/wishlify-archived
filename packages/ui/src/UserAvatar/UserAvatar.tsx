@@ -8,6 +8,7 @@ export type UserAvatarProps = JSX.IntrinsicElements["div"] & {
   src?: string | null;
   fallback: string;
   size?: number;
+  fallbackClassName?: string;
 };
 
 export const UserAvatar: React.FC<UserAvatarProps> = ({
@@ -15,6 +16,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
   fallback,
   size = 36,
   className,
+  fallbackClassName,
   ...props
 }) => {
   return (
@@ -29,7 +31,9 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
       {src ? (
         <Image src={src} alt="" layout="fill" objectFit="cover" />
       ) : (
-        <div className="text-sm">{fallback.toUpperCase()}</div>
+        <div className={clsx("text-sm", fallbackClassName)}>
+          {fallback.toUpperCase()}
+        </div>
       )}
     </div>
   );
