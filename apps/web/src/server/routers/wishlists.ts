@@ -6,7 +6,7 @@ import { createRouter } from "@/utils/router";
 
 export const wishlistRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
-    if (!ctx.session) {
+    if (!ctx.session && ctx.req.method !== "GET") {
       throw new TRPCError({
         code: "UNAUTHORIZED",
         message: "Authentication is required here",
@@ -19,6 +19,22 @@ export const wishlistRouter = createRouter()
     async resolve({ ctx }) {
       const wishlists = await ctx.prisma.wishlist.findMany({
         where: { userId: ctx.session?.user.id },
+      });
+
+      return wishlists;
+    },
+  })
+  .query("findByOwner", {
+    input: z.object({
+      userId: z.string(),
+      private: z.boolean().optional().default(false),
+    }),
+    async resolve({ ctx, input }) {
+      const wishlists = await ctx.prisma.wishlist.findMany({
+        where: {
+          userId: input.userId,
+          private: input.private,
+        },
       });
 
       return wishlists;
@@ -46,12 +62,18 @@ export const wishlistRouter = createRouter()
   .mutation("create", {
     input: z.object({
       name: z.string(),
+      private: z.boolean().optional().default(false),
     }),
     async resolve({ ctx, input }) {
       const displayName = parseWishlistName(input.name);
 
       const wishlist = await ctx.prisma.wishlist.create({
-        data: { name: input.name, displayName, userId: ctx.session!.user.id },
+        data: {
+          name: input.name,
+          displayName,
+          userId: ctx.session!.user.id,
+          private: input.private,
+        },
         include: { user: true },
       });
 

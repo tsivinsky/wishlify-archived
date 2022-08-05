@@ -1,11 +1,18 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { Button } from "@wishlify/ui";
 
+import { User, Wishlist } from "@prisma/client";
+import { unstable_getServerSession } from "next-auth";
+
+import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
 import { DashboardLayout } from "@/layouts/DashboardLayout";
+
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 import { Page } from "@/types/Page";
 
@@ -14,16 +21,30 @@ type WishlistPageParams = {
   wishlistName: string;
 };
 
-const WishlistPage: Page<WishlistPageParams> = ({ username, wishlistName }) => {
+type WishlistPageProps = {
+  user?: User;
+  wishlist?: Wishlist;
+  wishlistName: string;
+};
+
+const WishlistPage: Page<WishlistPageProps> = ({
+  user,
+  wishlist: initialWishlist,
+  wishlistName,
+}) => {
   const router = useRouter();
 
-  const wishlist = trpc.useQuery([
-    "wishlists.findByDisplayName",
-    { displayName: wishlistName },
-  ]);
+  const { data: wishlist } = trpc.useQuery(
+    ["wishlists.findByDisplayName", { displayName: wishlistName }],
+    { initialData: initialWishlist }
+  );
 
   return (
     <div>
+      <Head>
+        <title>Wishlify | {wishlist?.name}</title>
+      </Head>
+
       <Button
         variant="outlined"
         color="gray"
@@ -34,7 +55,8 @@ const WishlistPage: Page<WishlistPageParams> = ({ username, wishlistName }) => {
         Назад
       </Button>
 
-      <h3>{wishlist.data?.name}</h3>
+      <h3>{wishlist?.name}</h3>
+      <pre>{JSON.stringify(wishlist, undefined, "  ")}</pre>
     </div>
   );
 };
@@ -42,7 +64,7 @@ const WishlistPage: Page<WishlistPageParams> = ({ username, wishlistName }) => {
 WishlistPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export const getServerSideProps: GetServerSideProps<
-  WishlistPageParams,
+  WishlistPageProps,
   WishlistPageParams
 > = async (ctx) => {
   const { username, wishlistName } = ctx.params || {};
@@ -56,9 +78,38 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
+  const session = await unstable_getServerSession(
+    ctx.req,
+    ctx.res,
+    authOptions
+  );
+
+  const client = getTRPCClient();
+
+  const [user, wishlist] = await Promise.all([
+    client.query("user.findByUsername", { username }),
+    client.query("wishlists.findByDisplayName", { displayName: wishlistName }),
+  ]);
+
+  if (!user || !wishlist) {
+    return {
+      notFound: true,
+    };
+  }
+
+  if (wishlist.userId !== session?.user.id && wishlist.private) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
-      username,
+      user,
+      wishlist,
       wishlistName,
     },
   };
