@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { Panel, UserAvatar } from "@wishlify/ui";
+import { UserAvatar } from "@wishlify/ui";
 
 import { User, Wishlist } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
@@ -53,11 +53,8 @@ const ProfilePage: Page<ProfilePageProps> = ({
         <title>Wishlify | {user?.username}</title>
       </Head>
 
-      <div className="flex flex-col sm:flex-row gap-10">
-        <Panel
-          size="unsized"
-          className="sticky z-sticky top-0 bottom-0 py-5 px-10 rounded-xl shadow flex flex-col items-center gap-3"
-        >
+      <div className="flex flex-col sm:flex-row gap-6">
+        <div className="sticky z-sticky top-0 bottom-0 py-5 px-10 flex flex-col items-center gap-3">
           {user && (
             <UserAvatar
               src={user.avatar}
@@ -67,7 +64,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
             />
           )}
           <h2 className="text-lg font-medium">{user?.username}</h2>
-        </Panel>
+        </div>
         <div>
           <div className="flex flex-wrap gap-4">
             {wishlists?.map((wishlist) => (
