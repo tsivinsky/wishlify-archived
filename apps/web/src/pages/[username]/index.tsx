@@ -6,6 +6,7 @@ import { Panel, UserAvatar } from "@wishlify/ui";
 
 import { User, Wishlist } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
@@ -24,15 +25,20 @@ type ProfilePageParams = {
 
 type ProfilePageProps = {
   user: User;
-  wishlists: Array<Wishlist>;
+  wishlists?: Array<Wishlist>;
 };
 
 const ProfilePage: Page<ProfilePageProps> = ({
   user,
   wishlists: initialWishlists,
 }) => {
+  const { data: session } = useSession();
+
   const { data: wishlists } = trpc.useQuery(
-    ["wishlists.findByOwner", { userId: user?.id }],
+    [
+      "wishlists.findByOwner",
+      { userId: user?.id, includePrivate: session?.user.id === user?.id },
+    ],
     { initialData: initialWishlists }
   );
 
@@ -111,6 +117,7 @@ export const getServerSideProps: GetServerSideProps<
 
   const wishlists = await client.query("wishlists.findByOwner", {
     userId: user.id,
+    includePrivate: session?.user.id === user.id,
   });
 
   return {

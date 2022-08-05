@@ -27,13 +27,13 @@ export const wishlistRouter = createRouter()
   .query("findByOwner", {
     input: z.object({
       userId: z.string(),
-      private: z.boolean().optional().default(false),
+      includePrivate: z.boolean().optional().default(false),
     }),
     async resolve({ ctx, input }) {
       const wishlists = await ctx.prisma.wishlist.findMany({
         where: {
           userId: input.userId,
-          private: input.private,
+          private: input.includePrivate ? undefined : false,
         },
       });
 
