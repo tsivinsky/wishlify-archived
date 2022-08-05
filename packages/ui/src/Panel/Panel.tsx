@@ -15,6 +15,11 @@ const variantClasses = {
   plain: classes.variantPlain,
 };
 
+const colorClasses = {
+  white: classes.colorWhite,
+  red: classes.colorRed,
+};
+
 const sizeClasses = {
   small: classes.sizeSmall,
   medium: classes.sizeMedium,
@@ -23,6 +28,7 @@ const sizeClasses = {
 };
 
 export type PanelVariant = keyof typeof variantClasses;
+export type PanelColor = keyof typeof colorClasses;
 export type PanelSize = keyof typeof sizeClasses;
 
 export type PanelOwnProps = {
@@ -44,6 +50,7 @@ export const Panel: PanelType = React.forwardRef(
     {
       as,
       variant = "plain",
+      color = "white",
       size = "medium",
       className: additionalClassName,
       children,
@@ -58,6 +65,7 @@ export const Panel: PanelType = React.forwardRef(
         additionalClassName,
         classes.root,
         variantClasses[variant],
+        colorClasses[color],
         sizeClasses[size]
       );
     }, [additionalClassName, variant, size]);

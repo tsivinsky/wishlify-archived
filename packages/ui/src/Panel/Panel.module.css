@@ -3,7 +3,15 @@
 }
 
 .variantPlain {
-  @apply border border-transparent bg-white;
+  @apply border border-transparent;
+}
+
+.colorWhite {
+  @apply bg-white;
+}
+
+.colorRed {
+  @apply bg-red-100 border-red-600;
 }
 
 .sizeSmall {
