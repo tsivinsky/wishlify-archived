@@ -19,6 +19,7 @@ import {
   useNewWishlistModal,
 } from "@/components/NewWishlistModal";
 import { WishlistCard } from "@/components/WishlistCard";
+import { WishlistCardList } from "@/components/WishlistCardList";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
@@ -112,13 +113,7 @@ const HomePage: Page = () => {
           </Button>
         </div>
       </div>
-      <div
-        className={clsx("mt-4 gap-4", {
-          "grid [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))]":
-            (wishlists?.data?.length ?? 0) >= 6,
-          "flex flex-wrap": (wishlists?.data?.length ?? 0) < 6,
-        })}
-      >
+      <WishlistCardList count={wishlists.data?.length ?? 0} className="mt-4">
         {wishlists.data?.map((wishlist) => (
           <WishlistCard
             key={wishlist.id}
@@ -131,7 +126,7 @@ const HomePage: Page = () => {
             onClick={(e) => handleClickOnCard(e, wishlist)}
           />
         ))}
-      </div>
+      </WishlistCardList>
     </div>
   );
 };
