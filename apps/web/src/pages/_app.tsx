@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { AppProps } from "next/app";
+import Head from "next/head";
 
 import {
   DehydratedState,
@@ -35,6 +36,9 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
+          <Head>
+            <title>Wishlify</title>
+          </Head>
           <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
         </Hydrate>
       </QueryClientProvider>
