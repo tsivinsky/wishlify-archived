@@ -28,6 +28,22 @@ export const authOptions: NextAuthOptions = {
     newUser: "/auth/new-user",
   },
   callbacks: {
+    async redirect({ baseUrl, url }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+
+      const uri = new URL(url);
+
+      if (uri.origin === baseUrl) {
+        const callbackUrl = uri.searchParams.get("callbackUrl");
+        if (callbackUrl) {
+          return callbackUrl;
+        }
+
+        return url;
+      }
+
+      return baseUrl;
+    },
     async session({ session, user }) {
       const userInDb = await prisma.user.findFirst({ where: { id: user.id } });
       if (!userInDb) return session;
