@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
@@ -29,11 +31,17 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
     formState: { errors },
   } = useForm<LoginFormFields>();
 
-  const onSubmit = (data: LoginFormFields) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onSubmit = async (data: LoginFormFields) => {
     const emailProvider = providers.email;
     if (!emailProvider) return;
 
-    signIn("email", { email: data.email });
+    setIsLoading(true);
+
+    await signIn("email", { email: data.email });
+
+    setIsLoading(false);
   };
 
   return (
@@ -56,7 +64,7 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
             helperText={errors.email?.message}
             {...register("email", { required: "Обязательное поле" })}
           />
-          <Button type="submit" size="large">
+          <Button type="submit" size="large" loading={isLoading}>
             Продолжить
           </Button>
         </form>
