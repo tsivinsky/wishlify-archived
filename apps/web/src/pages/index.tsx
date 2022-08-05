@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { Button } from "@wishlify/ui";
@@ -69,6 +70,10 @@ const HomePage: Page = () => {
 
   return (
     <div>
+      <Head>
+        <title>Wishlify | Главная страница</title>
+      </Head>
+
       <NewWishlistModal onSubmit={onSubmit} />
 
       <div className="flex flex-col gap-2 justify-between sm:flex-row sm:items-center">

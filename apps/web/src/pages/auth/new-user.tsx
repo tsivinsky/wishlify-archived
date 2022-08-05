@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { Button, Input, Panel } from "@wishlify/ui";
@@ -40,6 +41,10 @@ const NewUserPage: Page = () => {
 
   return (
     <div className="flex justify-center">
+      <Head>
+        <title>Wishlify | Спасибо за регистрацию</title>
+      </Head>
+
       <Panel className="max-w-[400px] flex flex-col gap-4 mt-32">
         <h2 className="text-lg text-center font-medium">
           Спасибо за регистрацию

@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 
 import { Button, Input, Panel } from "@wishlify/ui";
 
@@ -9,9 +10,9 @@ import { useForm } from "react-hook-form";
 
 import { PrimaryLayout } from "@/layouts/PrimaryLayout";
 
-import { Page } from "@/types/Page";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-import { authOptions } from "../api/auth/[...nextauth]";
+import { Page } from "@/types/Page";
 
 type LoginFormFields = {
   email: string;
@@ -37,6 +38,10 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
 
   return (
     <div className="flex justify-center items-center">
+      <Head>
+        <title>Wishlify | Вход</title>
+      </Head>
+
       <Panel className="max-w-sm w-full shadow-lg mt-32">
         <h2 className="text-xl text-center">Войти</h2>
         <form
