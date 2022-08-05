@@ -5,12 +5,16 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 
 export type PopoverProps = RadixPopover.PopoverContentProps & {
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   trigger?: React.ReactNode;
   className?: string;
   children?: React.ReactNode;
 };
 
 export const Popover: React.FC<PopoverProps> = ({
+  isOpen,
+  onOpenChange,
   trigger,
   className,
   children,
@@ -24,10 +28,14 @@ export const Popover: React.FC<PopoverProps> = ({
   }, [props.side]);
 
   return (
-    <RadixPopover.Root>
+    <RadixPopover.Root open={isOpen} onOpenChange={onOpenChange}>
       <RadixPopover.Trigger asChild>{trigger}</RadixPopover.Trigger>
       <RadixPopover.Anchor />
-      <RadixPopover.Content asChild {...props}>
+      <RadixPopover.Content
+        asChild
+        onInteractOutside={() => onOpenChange?.(false)}
+        {...props}
+      >
         <motion.div
           initial={{ opacity: 0, [axis]: axisOffset }}
           animate={{ opacity: 1, [axis]: 0 }}
