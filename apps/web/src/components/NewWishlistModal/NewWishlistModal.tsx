@@ -24,10 +24,12 @@ export const useNewWishlistModal = create<NewWishlistModalState>((set) => ({
 
 export type NewWishlistModalProps = {
   onSubmit: (data: CreateWishlistForm) => void;
+  isLoading: boolean;
 };
 
 export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
   onSubmit,
+  isLoading,
 }) => {
   const { isNewWishlistModalOpen, closeNewWishlistModal } =
     useNewWishlistModal();
@@ -67,7 +69,7 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
           onCheckedChange={(checked) => form.setValue("private", checked)}
           label="Сделать вишлист приватным"
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" loading={isLoading}>
           Создать
         </Button>
       </form>

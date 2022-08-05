@@ -73,7 +73,10 @@ const HomePage: Page = () => {
         <title>Wishlify | Главная страница</title>
       </Head>
 
-      <NewWishlistModal onSubmit={onSubmit} />
+      <NewWishlistModal
+        onSubmit={onSubmit}
+        isLoading={createWishlist.isLoading}
+      />
 
       <div className="flex flex-col gap-2 justify-between sm:flex-row sm:items-center">
         <h2 className="text-2xl font-medium">
