@@ -20,5 +20,13 @@ export const useTheme = create<ThemeState>((set, get) => ({
       document.documentElement.classList.remove("dark");
     }
   },
-  toggleTheme: () => get().setTheme(get().theme === "dark" ? "light" : "dark"),
+  toggleTheme: () => {
+    const { setTheme, theme } = get();
+
+    if (theme === "dark") {
+      setTheme("light");
+    } else {
+      setTheme("dark");
+    }
+  },
 }));
