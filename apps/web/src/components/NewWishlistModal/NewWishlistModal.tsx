@@ -1,38 +1,25 @@
 import React from "react";
 
-import { Button, Checkbox, Input, Modal } from "@wishlify/ui";
+import { Button, Checkbox, Input, Modal, ModalProps } from "@wishlify/ui";
 
 import { useForm } from "react-hook-form";
-import create from "zustand";
+
+import { trpc } from "@/utils/trpc";
 
 export type CreateWishlistForm = {
   name: string;
   private: boolean;
 };
 
-export type NewWishlistModalState = {
-  isNewWishlistModalOpen: boolean;
-  openNewWishlistModal: () => void;
-  closeNewWishlistModal: () => void;
-};
-
-export const useNewWishlistModal = create<NewWishlistModalState>((set) => ({
-  isNewWishlistModalOpen: false,
-  openNewWishlistModal: () => set({ isNewWishlistModalOpen: true }),
-  closeNewWishlistModal: () => set({ isNewWishlistModalOpen: false }),
-}));
-
-export type NewWishlistModalProps = {
-  onSubmit: (data: CreateWishlistForm) => void;
-  isLoading: boolean;
+export type NewWishlistModalProps = ModalProps & {
+  onSuccess: () => void;
 };
 
 export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
-  onSubmit,
-  isLoading,
+  onSuccess,
+  ...props
 }) => {
-  const { isNewWishlistModalOpen, closeNewWishlistModal } =
-    useNewWishlistModal();
+  const createWishlist = trpc.useMutation(["wishlists.create"]);
 
   const form = useForm<CreateWishlistForm>({
     defaultValues: {
@@ -40,21 +27,24 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
     },
   });
 
-  const _onSubmit = (data: CreateWishlistForm) => {
-    form.reset();
-    onSubmit(data);
+  const onSubmit = (data: CreateWishlistForm) => {
+    createWishlist.mutate(data, {
+      onError: (err) => {
+        form.setError("name", { message: err.message });
+      },
+      onSuccess,
+    });
   };
 
   return (
     <Modal
-      isOpen={isNewWishlistModalOpen}
-      onClose={closeNewWishlistModal}
       title="Новый вишлист"
       className="w-[90%] sm:w-[400px]"
       beforeClose={() => form.reset()}
+      {...props}
     >
       <form
-        onSubmit={form.handleSubmit(_onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-4 items-start mt-4"
       >
         <Input
@@ -69,7 +59,11 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
           onCheckedChange={(checked) => form.setValue("private", checked)}
           label="Сделать вишлист приватным"
         />
-        <Button type="submit" className="w-full" loading={isLoading}>
+        <Button
+          type="submit"
+          className="w-full"
+          loading={createWishlist.isLoading}
+        >
           Создать
         </Button>
       </form>

@@ -15,11 +15,7 @@ import { useSession } from "next-auth/react";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
-import {
-  CreateWishlistForm,
-  NewWishlistModal,
-  useNewWishlistModal,
-} from "@/components/NewWishlistModal";
+import { NewWishlistModal } from "@/components/NewWishlistModal";
 import { WishlistCard } from "@/components/WishlistCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
@@ -46,10 +42,11 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
       initialData: initialWishlists,
     }
   );
-  const createWishlist = trpc.useMutation(["wishlists.create"]);
   const deleteWishlists = trpc.useMutation(["wishlists.delete"]);
 
-  const { openNewWishlistModal, closeNewWishlistModal } = useNewWishlistModal();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openNewWishlistModal = () => setIsModalOpen(true);
+  const closeNewWishlistModal = () => setIsModalOpen(false);
 
   const [selectedWishlists, setSelectedWishlists] = useState<string[]>([]);
   const toggleSelectedWishlist = (wishlistId: string) => {
@@ -60,12 +57,6 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
     }
   };
 
-  const onSubmit = async (data: CreateWishlistForm) => {
-    await createWishlist.mutateAsync(data);
-    closeNewWishlistModal();
-    await wishlists.refetch();
-  };
-
   const handleClickOnCard = (e: React.MouseEvent, wishlist: Wishlist) => {
     if (e.ctrlKey || selectedWishlists.length > 0) {
       toggleSelectedWishlist(wishlist.id);
@@ -73,6 +64,11 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
       const wishlistLink = `/${session?.user.username}/${wishlist.displayName}`;
       router.push(wishlistLink);
     }
+  };
+
+  const onCreateNewWishlist = async () => {
+    closeNewWishlistModal();
+    await wishlists.refetch();
   };
 
   const handleDeleteSelectedWishlists = async () => {
@@ -86,10 +82,10 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
       <Head>
         <title>Wishlify | Главная страница</title>
       </Head>
-
       <NewWishlistModal
-        onSubmit={onSubmit}
-        isLoading={createWishlist.isLoading}
+        isOpen={isModalOpen}
+        onClose={closeNewWishlistModal}
+        onSuccess={onCreateNewWishlist}
       />
 
       <div className="flex flex-col gap-2 justify-between sm:flex-row sm:items-center">
