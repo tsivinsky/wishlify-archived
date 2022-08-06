@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = () => {
       <div className="flex justify-between items-center max-w-screen-xl mx-auto h-full">
         <Link href="/" passHref>
           <a>
-            <h1 className="text-2xl font-semibold font-outfit dark:text-white/90">
+            <h1 className="text-2xl font-semibold font-outfit transition-colors hover:text-neutral-600 dark:text-white/90 hover:dark:text-neutral-400">
               Wishlify
             </h1>
           </a>
