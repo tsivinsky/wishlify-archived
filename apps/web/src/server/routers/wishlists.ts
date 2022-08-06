@@ -62,6 +62,16 @@ export const wishlistRouter = createRouter()
     async resolve({ ctx, input }) {
       const displayName = parseWishlistName(input.name);
 
+      const nameTaken = await ctx.prisma.wishlist.findFirst({
+        where: { displayName },
+      });
+      if (nameTaken) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Вишлист с таким названием уже существует",
+        });
+      }
+
       const wishlist = await ctx.prisma.wishlist.create({
         data: {
           name: input.name,
