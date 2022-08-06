@@ -1,11 +1,14 @@
 /** @type {import("tailwindcss").Config} */
 module.exports = {
   content: ["./src/**/*.tsx", "../../packages/ui/src/**/*.tsx"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         primary: "#306fcb",
         "primary-light": "#cadaf2",
+        "primary-dark": "#121212",
+        "secondary-dark": "#404040",
       },
       fontFamily: {
         sans: ["Roboto"],

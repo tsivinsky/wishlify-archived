@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 
+import { useTheme } from "@wishlify/lib";
+
 import { useFocusTrap, useScrollLock } from "@mantine/hooks";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -61,6 +63,8 @@ export const Modal: React.FC<ModalProps> = ({
   }, [additionalBackdropClassName]);
 
   const modalRef = useFocusTrap();
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (isOpen) {
@@ -126,14 +130,19 @@ export const Modal: React.FC<ModalProps> = ({
                     })}
                   >
                     {title && (
-                      <h2 className="font-semibold text-xl">{title}</h2>
+                      <h2 className="font-semibold text-xl dark:text-white/90">
+                        {title}
+                      </h2>
                     )}
                     {withCloseButton && (
                       <button
                         className="rounded-full p-0.5"
                         onClick={closeModal}
                       >
-                        <XCircle size={28} />
+                        <XCircle
+                          size={28}
+                          color={theme === "dark" ? "white" : "black"}
+                        />
                       </button>
                     )}
                   </div>

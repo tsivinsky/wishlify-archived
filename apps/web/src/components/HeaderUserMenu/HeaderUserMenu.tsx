@@ -20,10 +20,12 @@ export const HeaderUserMenu: React.FC = () => {
       {session ? (
         <>
           <button
-            className="flex items-center gap-2 py-2 px-2 md:px-4 rounded-full md:rounded-xl transition-colors duration-200 hover:bg-gray-100"
+            className="flex items-center gap-2 py-2 px-2 md:px-4 rounded-full md:rounded-xl transition-colors duration-200 hover:bg-gray-100 hover:dark:bg-neutral-700"
             onClick={() => setIsMenuOpen(true)}
           >
-            <span className="hidden md:inline">{session.user.username}</span>
+            <span className="hidden md:inline dark:text-white/90">
+              {session.user.username}
+            </span>
             <UserAvatar
               src={session.user.avatar}
               fallback={session.user.username?.[0] || ""}
@@ -38,13 +40,13 @@ export const HeaderUserMenu: React.FC = () => {
             className="w-[180px] p-3 flex flex-col gap-3"
           >
             <Link href={`/${session.user.username}`} passHref>
-              <a className="flex gap-2 items-center p-1 rounded transition-colors duration-200 hover:bg-gray-100">
+              <a className="flex gap-2 items-center p-1 rounded-md text-neutral-700 dark:text-neutral-200 transition-colors duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-500">
                 <UserCircle size={24} />
                 <span>Профиль</span>
               </a>
             </Link>
             <Link href="/account" passHref>
-              <a className="flex gap-2 items-center p-1 rounded transition-colors duration-200 hover:bg-gray-100">
+              <a className="flex gap-2 items-center p-1 rounded-md text-neutral-700 dark:text-neutral-200 transition-colors duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-500">
                 <GearSix size={24} />
                 <span>Аккаунт</span>
               </a>

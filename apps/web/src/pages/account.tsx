@@ -65,7 +65,7 @@ const AccountPage: Page = () => {
       </Head>
 
       <div>
-        <h1 className="text-lg md:text-2xl">
+        <h1 className="text-lg md:text-2xl dark:text-white/90">
           Настройки аккаунта{" "}
           <span className="font-medium">{session?.user.username}</span>
         </h1>
@@ -90,11 +90,7 @@ const AccountPage: Page = () => {
 
         <Panel color="red" className="mt-6 rounded-lg">
           <h2 className="md:text-lg text-red-600">Опасная зона</h2>
-          <Button
-            color="uncolored"
-            className="mt-4 bg-red-600 text-red-100 hover:bg-transparent hover:border-red-600 hover:text-red-600"
-            onClick={handleDeleteAccount}
-          >
+          <Button color="red" className="mt-4" onClick={handleDeleteAccount}>
             Удалить аккаунт
           </Button>
         </Panel>

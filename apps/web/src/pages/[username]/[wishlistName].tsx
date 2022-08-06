@@ -55,8 +55,10 @@ const WishlistPage: Page<WishlistPageProps> = ({
         Назад
       </Button>
 
-      <h3>{wishlist?.name}</h3>
-      <pre>{JSON.stringify(wishlist, undefined, "  ")}</pre>
+      <h3 className="text-xl dark:text-white/90">{wishlist?.name}</h3>
+      <pre className="dark:text-white/90 overflow-hidden">
+        {JSON.stringify(wishlist, undefined, "  ")}
+      </pre>
     </>
   );
 };

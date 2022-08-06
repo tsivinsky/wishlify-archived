@@ -57,7 +57,9 @@ const ProfilePage: Page<ProfilePageProps> = ({
               fallbackClassName="text-4xl"
             />
           )}
-          <h2 className="text-lg font-medium">{user?.username}</h2>
+          <h2 className="text-lg font-medium dark:text-white/90">
+            {user?.username}
+          </h2>
         </div>
         <div>
           <div className="flex flex-wrap gap-4">

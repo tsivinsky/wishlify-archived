@@ -13,6 +13,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "next": "*"
+    "next": "*",
+    "zustand": "*"
   }
 }

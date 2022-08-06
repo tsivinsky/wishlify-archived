@@ -17,7 +17,7 @@ export const PrimaryLayout: React.FC<PrimaryLayoutProps> = ({
     <div className={clsx("relative w-full min-h-screen", className)}>
       <main
         className={clsx(
-          "min-h-screen-without-header bg-gray-50",
+          "min-h-screen-without-header transition-colors bg-gray-50 dark:bg-primary-dark",
           mainContentClassName
         )}
       >

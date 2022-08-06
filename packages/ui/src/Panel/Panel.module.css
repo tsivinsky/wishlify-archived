@@ -7,11 +7,11 @@
 }
 
 .colorWhite {
-  @apply bg-white;
+  @apply bg-white dark:bg-secondary-dark/70;
 }
 
 .colorRed {
-  @apply bg-red-100 border-red-600;
+  @apply bg-red-100 dark:bg-red-300 border-red-600;
 }
 
 .sizeSmall {

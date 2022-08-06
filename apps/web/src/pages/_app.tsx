@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
+
+import { useTheme } from "@wishlify/lib";
 
 import {
   DehydratedState,
@@ -29,6 +31,19 @@ type WishlifyAppProps = AppProps & {
 function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
   const Layout = Component.layout ?? React.Fragment;
   const getLayout = Component.getLayout ?? ((page) => page);
+
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") ?? null;
+
+    const theme =
+      savedTheme ?? document.documentElement.classList.contains("dark")
+        ? "dark"
+        : "light";
+
+    setTheme(theme);
+  }, [setTheme]);
 
   const [queryClient] = useState(() => new QueryClient());
 

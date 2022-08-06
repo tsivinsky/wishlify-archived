@@ -39,8 +39,9 @@ export const Popover: React.FC<PopoverProps> = ({
         <motion.div
           initial={{ opacity: 0, [axis]: axisOffset }}
           animate={{ opacity: 1, [axis]: 0 }}
+          transition={{ type: "tween" }}
           className={clsx(
-            "bg-white shadow-md rounded-lg !outline-none",
+            "bg-white dark:bg-secondary-dark shadow-lg rounded-md !outline-none",
             className
           )}
         >

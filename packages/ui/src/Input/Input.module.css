@@ -15,7 +15,7 @@
 }
 
 .label {
-  @apply ml-1 select-none;
+  @apply ml-1 select-none dark:text-white/90;
 }
 
 .helperText {
@@ -24,12 +24,14 @@
 
 .colorPrimary {
   .input {
+    @apply dark:bg-neutral-600 dark:border-neutral-500 dark:text-white/90;
+
     &:hover {
-      @apply bg-gray-50;
+      @apply bg-gray-50 dark:bg-neutral-700;
     }
 
     &:focus {
-      @apply bg-gray-50 border-primary;
+      @apply bg-gray-50 border-primary dark:bg-neutral-700;
     }
   }
 }

@@ -1,9 +1,9 @@
 .backdrop {
-  @apply fixed z-modalBackdrop inset-0 flex justify-center items-center bg-white/30 backdrop-blur;
+  @apply fixed z-modalBackdrop inset-0 flex justify-center items-center bg-white/30 dark:bg-neutral-700/30 backdrop-blur;
 }
 
 .variantPlain {
-  @apply bg-white;
+  @apply bg-white dark:bg-neutral-700;
 }
 
 .sizeSmall {

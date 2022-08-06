@@ -45,7 +45,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
     >
       <svg
         style={{ width: size, height: size }}
-        className="border border-gray-300 rounded-md grid place-items-center transition-colors duration-200 transform-gpu"
+        className="border border-gray-300 rounded-md grid place-items-center dark:border-neutral-500 transition-colors duration-200 transform-gpu"
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
         height="100%"
@@ -71,7 +71,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         </AnimatePresence>
       </svg>
       {label && (
-        <label className={clsx("cursor-pointer text-left", labelClassName)}>
+        <label
+          className={clsx(
+            "cursor-pointer text-left transition-colors duration-200 dark:text-white/90",
+            labelClassName
+          )}
+        >
           {label}
         </label>
       )}

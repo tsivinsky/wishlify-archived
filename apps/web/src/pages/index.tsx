@@ -79,7 +79,7 @@ const HomePage: Page = () => {
       />
 
       <div className="flex flex-col gap-2 justify-between sm:flex-row sm:items-center">
-        <h2 className="text-2xl font-medium">
+        <h2 className="text-2xl font-medium dark:text-white/90">
           Привет, {session?.user?.username}
         </h2>
         <div className="flex gap-4 items-center">
