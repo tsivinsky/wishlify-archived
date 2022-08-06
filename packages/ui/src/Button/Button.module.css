@@ -23,7 +23,7 @@
     @apply bg-primary text-white;
 
     &:hover {
-      @apply bg-white text-primary border-primary;
+      @apply bg-transparent text-primary border-primary;
     }
   }
 
@@ -41,7 +41,7 @@
     @apply bg-gray-200 text-gray-700;
 
     &:hover {
-      @apply bg-white text-gray-700 border-gray-700;
+      @apply bg-transparent text-gray-700 border-gray-700;
     }
   }
 
@@ -59,7 +59,7 @@
     @apply bg-red-200 text-red-700;
 
     &:hover {
-      @apply bg-white text-red-700 border-red-700;
+      @apply bg-transparent text-red-700 border-red-700;
     }
   }
 
