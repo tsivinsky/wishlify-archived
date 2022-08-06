@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
           pass: process.env.EMAIL_PASS,
         },
       },
-      from: process.env.EMAIL_USER,
+      from: `Wishlify <${process.env.EMAIL_USER}>`,
       name: "Email",
     }),
   ],
