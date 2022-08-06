@@ -38,7 +38,7 @@
 
 .colorError {
   .input {
-    @apply border-red-500;
+    @apply border-red-500 dark:bg-neutral-600 dark:text-white/90;
   }
 
   .helperText {
