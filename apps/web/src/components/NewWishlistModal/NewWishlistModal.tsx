@@ -32,7 +32,10 @@ export const NewWishlistModal: React.FC<NewWishlistModalProps> = ({
       onError: (err) => {
         form.setError("name", { message: err.message });
       },
-      onSuccess,
+      onSuccess: () => {
+        form.reset();
+        onSuccess();
+      },
     });
   };
 
