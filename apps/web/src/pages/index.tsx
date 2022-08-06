@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
+import { getDeclensionByNumber } from "@wishlify/lib";
 import { Button } from "@wishlify/ui";
 
 import { Wishlist } from "@prisma/client";
@@ -11,6 +12,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
+import { useConfirm } from "use-confirm";
 
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
@@ -44,6 +46,8 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
   );
   const deleteWishlists = trpc.useMutation(["wishlists.delete"]);
 
+  const { ask } = useConfirm();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openNewWishlistModal = () => setIsModalOpen(true);
   const closeNewWishlistModal = () => setIsModalOpen(false);
@@ -72,6 +76,18 @@ const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
   };
 
   const handleDeleteSelectedWishlists = async () => {
+    const ok = await ask(
+      `Вы собираетесь удалить ${
+        selectedWishlists.length
+      } ${getDeclensionByNumber(
+        selectedWishlists.length,
+        "вишлист",
+        "вишлиста",
+        "вишлистов"
+      )}. Вы уверены?`
+    );
+    if (!ok) return;
+
     await deleteWishlists.mutateAsync({ wishlists: selectedWishlists });
     setSelectedWishlists([]);
     await wishlists.refetch();
