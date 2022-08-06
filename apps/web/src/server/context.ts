@@ -5,10 +5,10 @@ import { unstable_getServerSession } from "next-auth";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
+const prisma = new PrismaClient();
+
 export async function createContext(ctx: trpcNext.CreateNextContextOptions) {
   const { req, res } = ctx;
-
-  const prisma = new PrismaClient();
 
   const session = await unstable_getServerSession(req, res, authOptions);
 
