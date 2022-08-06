@@ -8,3 +8,12 @@ server {
 		proxy_set_header	Host wishlify.ru;
 	}
 }
+
+server {
+	listen		80;
+	server_name	about.wishlify.ru;
+
+	location / {
+		rewrite		/ https://tsivinsky.notion.site/Wishlify-1f11ca5e1df847ccab5ba2b243f2c6ab;
+	}
+}
