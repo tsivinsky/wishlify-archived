@@ -33,7 +33,7 @@ export type ModalProps = {
   title?: string;
   withCloseButton?: boolean;
   beforeClose?: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export const Modal: React.FC<ModalProps> = ({
