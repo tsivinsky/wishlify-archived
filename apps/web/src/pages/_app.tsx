@@ -13,8 +13,11 @@ import {
 } from "@tanstack/react-query";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
+import { ConfirmContextProvider } from "use-confirm";
 
 import { getAppUrl } from "@/utils/getAppUrl";
+
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 import { Page } from "@/types/Page";
 
@@ -55,7 +58,10 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
           <Head>
             <title>Wishlify</title>
           </Head>
-          <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+          <ConfirmContextProvider buttonsText={{ yes: "Да", no: "Нет" }}>
+            <ConfirmDialog />
+            <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+          </ConfirmContextProvider>
         </Hydrate>
       </QueryClientProvider>
     </SessionProvider>
