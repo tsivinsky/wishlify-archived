@@ -31,12 +31,11 @@ export const Header: React.FC<HeaderProps> = () => {
           </a>
         </Link>
         <div className="flex items-center gap-1">
-          <div className="cursor-pointer p-1 rounded-full transition-colors duration-200 hover:bg-gray-200 hover:dark:bg-neutral-700">
-            <ThemeIcon
-              size={24}
-              onClick={toggleTheme}
-              color={theme === "dark" ? "white" : "black"}
-            />
+          <div
+            className="cursor-pointer p-1 rounded-full transition-colors duration-200 hover:bg-gray-200 hover:dark:bg-neutral-700"
+            onClick={toggleTheme}
+          >
+            <ThemeIcon size={24} color={theme === "dark" ? "white" : "black"} />
           </div>
           {status === "authenticated" && <HeaderUserMenu />}
           {status === "unauthenticated" && (
