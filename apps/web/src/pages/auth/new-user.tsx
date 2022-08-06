@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { trpc } from "@/utils/trpc";
 
-import { PrimaryLayout } from "@/layouts/PrimaryLayout";
+import { AuthLayout } from "@/layouts/AuthLayout";
 
 import { Page } from "@/types/Page";
 
@@ -40,16 +40,16 @@ const NewUserPage: Page = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <>
       <Head>
         <title>Wishlify | Спасибо за регистрацию</title>
       </Head>
 
-      <Panel className="max-w-[400px] flex flex-col gap-4 mt-32">
-        <h2 className="text-lg text-center font-medium">
+      <Panel className="max-w-[400px] flex flex-col gap-4 rounded-lg">
+        <h2 className="text-lg text-center font-medium dark:text-white/90">
           Спасибо за регистрацию
         </h2>
-        <h3 className="text-center">
+        <h3 className="text-center dark:text-white/90">
           Остался последний шаг - выбрать никнейм, чтобы другие пользователи
           могли найти вас в Wishlify
         </h3>
@@ -73,10 +73,10 @@ const NewUserPage: Page = () => {
           </Button>
         </form>
       </Panel>
-    </div>
+    </>
   );
 };
 
-NewUserPage.getLayout = (page) => <PrimaryLayout>{page}</PrimaryLayout>;
+NewUserPage.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 
 export default NewUserPage;

@@ -10,7 +10,7 @@ import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
-import { PrimaryLayout } from "@/layouts/PrimaryLayout";
+import { AuthLayout } from "@/layouts/AuthLayout";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
@@ -45,15 +45,15 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <>
       <Head>
         <title>Wishlify | Вход</title>
       </Head>
 
-      <Panel className="max-w-sm w-full shadow-lg mt-32">
-        <h2 className="text-xl text-center">Войти</h2>
+      <Panel className="max-w-sm w-full shadow-lg rounded-lg">
+        <h2 className="text-xl text-center dark:text-white/90">Войти</h2>
         <form
-          className="flex flex-col gap-4 mt-6"
+          className="flex flex-col gap-4 mt-4"
           onSubmit={handleSubmit(onSubmit)}
         >
           <Input
@@ -69,11 +69,11 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
           </Button>
         </form>
       </Panel>
-    </div>
+    </>
   );
 };
 
-LoginPage.getLayout = (page) => <PrimaryLayout>{page}</PrimaryLayout>;
+LoginPage.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const providers = await getProviders();
