@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
+import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
 import {
@@ -26,12 +27,25 @@ import { Page } from "@/types/Page";
 
 import { authOptions } from "./api/auth/[...nextauth]";
 
-const HomePage: Page = () => {
-  const { data: session } = useSession();
+type HomePageProps = {
+  wishlists: Array<Wishlist>;
+};
+
+const HomePage: Page<HomePageProps> = ({ wishlists: initialWishlists }) => {
+  const { data: session } = useSession({ required: true });
 
   const router = useRouter();
 
-  const wishlists = trpc.useQuery(["wishlists.get-all"]);
+  const wishlists = trpc.useQuery(
+    [
+      "wishlists.findByOwner",
+      { userId: session?.user.id ?? null, includePrivate: true },
+    ],
+    {
+      enabled: typeof session !== "undefined",
+      initialData: initialWishlists,
+    }
+  );
   const createWishlist = trpc.useMutation(["wishlists.create"]);
   const deleteWishlists = trpc.useMutation(["wishlists.delete"]);
 
@@ -143,7 +157,9 @@ const HomePage: Page = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
+  ctx
+) => {
   const session = await unstable_getServerSession(
     ctx.req,
     ctx.res,
@@ -159,9 +175,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     };
   }
 
+  const client = getTRPCClient();
+
+  const wishlists = await client.query("wishlists.findByOwner", {
+    userId: session.user.id,
+    includePrivate: true,
+  });
+
   return {
     props: {
       session,
+      wishlists,
     },
   };
 };

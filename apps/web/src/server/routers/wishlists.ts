@@ -15,29 +15,24 @@ export const wishlistRouter = createRouter()
 
     return next();
   })
-  .query("get-all", {
-    async resolve({ ctx }) {
-      const wishlists = await ctx.prisma.wishlist.findMany({
-        where: { userId: ctx.session?.user.id },
-      });
-
-      return wishlists;
-    },
-  })
   .query("findByOwner", {
     input: z.object({
-      userId: z.string(),
+      userId: z.string().nullable(),
       includePrivate: z.boolean().optional().default(false),
     }),
     async resolve({ ctx, input }) {
-      const wishlists = await ctx.prisma.wishlist.findMany({
-        where: {
-          userId: input.userId,
-          private: input.includePrivate ? undefined : false,
-        },
-      });
+      if (input.userId) {
+        const wishlists = await ctx.prisma.wishlist.findMany({
+          where: {
+            userId: input.userId,
+            private: input.includePrivate ? undefined : false,
+          },
+        });
 
-      return wishlists;
+        return wishlists;
+      }
+
+      return [];
     },
   })
   .query("findByDisplayName", {
