@@ -33,7 +33,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.15, ease: "easeInOut" }}
-          className="min-h-screen-without-header transition-colors bg-gray-50 dark:bg-primary-dark py-6 px-2 md:py-8 max-w-screen-xl mx-auto"
+          className="min-h-screen-without-header transition-colors bg-gray-50 dark:bg-primary-dark py-6 px-2 md:px-0 md:py-8 max-w-screen-xl mx-auto"
         >
           {children}
         </motion.div>
