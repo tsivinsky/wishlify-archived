@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 
-import { useTheme } from "@wishlify/lib";
+import { Theme, useTheme } from "@wishlify/lib";
 
 import {
   DehydratedState,
@@ -35,14 +35,15 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
   const { setTheme } = useTheme();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") ?? null;
+    const savedTheme = localStorage.getItem("theme");
 
     const theme =
-      savedTheme ?? document.documentElement.classList.contains("dark")
+      savedTheme ??
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
-        : "light";
+        : "light");
 
-    setTheme(theme);
+    setTheme(theme as Theme);
   }, [setTheme]);
 
   const [queryClient] = useState(() => new QueryClient());
