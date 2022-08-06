@@ -1,0 +1,10 @@
+server {
+	listen		80;
+	server_name	wishlify.ru;
+
+	location / {
+		proxy_pass		http://85.193.86.112:3000;
+
+		proxy_set_header	Host wishlify.ru;
+	}
+}

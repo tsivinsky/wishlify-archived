@@ -16,3 +16,11 @@ services:
     restart: always
     ports:
       - 8080:8080
+
+  nginx:
+    image: nginx
+    container_name: wishlify-nginx
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    ports:
+      - 80:80
