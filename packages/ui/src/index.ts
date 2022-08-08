@@ -12,3 +12,4 @@ export * from "./Popover";
 export * from "./PopoverMenu";
 export * from "./UserAvatar";
 export * from "./Modal";
+export * from "./FileInput";

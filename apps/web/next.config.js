@@ -6,6 +6,9 @@ const withTM = require("next-transpile-modules")([
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["s3.timeweb.com"],
+  },
   webpack: (config) => {
     // Find the base rule that contains nested rules (which contains css-loader)
     const rules = config.module.rules.find((r) => !!r.oneOf);

@@ -4,6 +4,8 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import EmailProvider from "next-auth/providers/email";
 
+import { s3Config } from "@/utils/s3";
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -46,6 +48,8 @@ export const authOptions: NextAuthOptions = {
       const userInDb = await prisma.user.findFirst({ where: { id: user.id } });
       if (!userInDb) return session;
 
+      const avatarUrl = `${s3Config.url}/${userInDb.avatar}`;
+
       return {
         ...session,
         user: {
@@ -53,7 +57,7 @@ export const authOptions: NextAuthOptions = {
           username: userInDb.username,
           email: userInDb.email,
           emailVerified: userInDb.emailVerified?.toISOString() || null,
-          avatar: userInDb.avatar,
+          avatar: userInDb.avatar ? avatarUrl : null,
         },
       };
     },

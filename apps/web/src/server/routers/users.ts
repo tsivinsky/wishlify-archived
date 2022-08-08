@@ -23,13 +23,14 @@ export const userRouter = createRouter()
   .mutation("update", {
     input: z.object({
       username: z.string().nullish().optional(),
+      avatar: z.string().nullish().optional(),
     }),
     async resolve({ ctx, input }) {
-      const { username } = input;
+      const { username, avatar } = input;
 
       const newData: { [Key in keyof User]?: User[Key] } = {};
 
-      if (username) {
+      if (username && ctx.session?.user.username !== username) {
         const usernameTaken = await ctx.prisma.user.findFirst({
           where: { username },
         });
@@ -41,6 +42,10 @@ export const userRouter = createRouter()
         }
 
         newData.username = username;
+      }
+
+      if (avatar && ctx.session?.user.avatar !== avatar) {
+        newData.avatar = avatar;
       }
 
       const updatedUser = await ctx.prisma.user.update({

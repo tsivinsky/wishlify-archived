@@ -86,7 +86,7 @@ export const Button: ButtonType = React.forwardRef(
       <Element
         ref={ref}
         className={className}
-        disabled={disabled === undefined ? loading : disabled}
+        disabled={loading ?? disabled}
         {...props}
       >
         {icon && iconPosition === "left" && <>{icon}</>}
