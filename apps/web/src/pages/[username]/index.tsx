@@ -49,16 +49,16 @@ const ProfilePage: Page<ProfilePageProps> = ({
 
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="sticky z-sticky top-0 bottom-0 py-5 px-10 flex flex-col items-center gap-3">
-          {user && (
+          {session && (
             <UserAvatar
-              src={user.avatar}
-              fallback={user.username?.[0] || user.email[0]}
+              src={session?.user.avatar}
+              fallback={session?.user.username?.[0] || user.email[0]}
               size={100}
               fallbackClassName="text-4xl"
             />
           )}
           <h2 className="text-lg font-medium dark:text-white/90">
-            {user?.username}
+            {session?.user.username}
           </h2>
         </div>
         <div>
@@ -66,7 +66,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
             {wishlists?.map((wishlist) => (
               <Link
                 key={wishlist.id}
-                href={`/${user.username}/${wishlist.displayName}`}
+                href={`/${session?.user.username}/${wishlist.displayName}`}
                 passHref
               >
                 <WishlistCard
