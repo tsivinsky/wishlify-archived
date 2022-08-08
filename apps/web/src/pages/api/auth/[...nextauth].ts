@@ -48,8 +48,6 @@ export const authOptions: NextAuthOptions = {
       const userInDb = await prisma.user.findFirst({ where: { id: user.id } });
       if (!userInDb) return session;
 
-      const avatarUrl = `${s3Config.url}/${userInDb.avatar}`;
-
       return {
         ...session,
         user: {
@@ -57,7 +55,7 @@ export const authOptions: NextAuthOptions = {
           username: userInDb.username,
           email: userInDb.email,
           emailVerified: userInDb.emailVerified?.toISOString() || null,
-          avatar: userInDb.avatar ? avatarUrl : null,
+          avatar: userInDb.avatar,
         },
       };
     },
