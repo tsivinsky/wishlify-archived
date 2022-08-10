@@ -97,7 +97,7 @@ const AccountPage: Page = () => {
   return (
     <>
       <Head>
-        <title>Wishlify | Настройки аккаунта</title>
+        <title>Настройки аккаунта</title>
       </Head>
 
       <div>

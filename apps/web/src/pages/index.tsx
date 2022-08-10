@@ -85,7 +85,7 @@ const HomePage: Page = () => {
   return (
     <>
       <Head>
-        <title>Wishlify | Главная страница</title>
+        <title>Wishlify</title>
       </Head>
       <NewWishlistModal
         isOpen={isModalOpen}

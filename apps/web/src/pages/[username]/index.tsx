@@ -44,7 +44,7 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
   return (
     <>
       <Head>
-        <title>Wishlify | {user?.username}</title>
+        <title>{user?.username ? user.username : "Wishlify"}</title>
       </Head>
 
       <div className="flex flex-col sm:flex-row gap-6">
