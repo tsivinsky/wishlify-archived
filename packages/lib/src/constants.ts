@@ -1,0 +1,1 @@
+export const WISHLIFY_FIRST_COMMIT_DATE = "2022-07-27";
