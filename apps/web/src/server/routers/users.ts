@@ -7,9 +7,16 @@ import { createRouter } from "@/utils/router";
 export const userRouter = createRouter()
   .query("findByUsername", {
     input: z.object({
-      username: z.string(),
+      username: z.string().nullable(),
     }),
     async resolve({ ctx, input }) {
+      if (!input.username) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "User not found",
+        });
+      }
+
       const user = await ctx.prisma.user.findUnique({
         where: { username: input.username },
       });

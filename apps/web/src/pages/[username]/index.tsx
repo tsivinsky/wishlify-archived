@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { UserAvatar } from "@wishlify/ui";
 
-import { User, Wishlist } from "@prisma/client";
+import { User } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
@@ -24,22 +24,22 @@ type ProfilePageParams = {
 
 type ProfilePageProps = {
   user: User;
-  wishlists?: Array<Wishlist>;
 };
 
-const ProfilePage: Page<ProfilePageProps> = ({
-  user,
-  wishlists: initialWishlists,
-}) => {
+const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
   const { data: session } = useSession();
 
-  const { data: wishlists } = trpc.useQuery(
-    [
-      "wishlists.findByOwner",
-      { userId: user?.id, includePrivate: session?.user.id === user?.id },
-    ],
-    { initialData: initialWishlists }
-  );
+  const { data: user } = trpc.useQuery([
+    "user.findByUsername",
+    { username: initialUser?.username },
+  ]);
+  const { data: wishlists } = trpc.useQuery([
+    "wishlists.findByOwner",
+    {
+      userId: initialUser?.id,
+      includePrivate: session?.user.id === initialUser?.id,
+    },
+  ]);
 
   return (
     <>
@@ -52,7 +52,7 @@ const ProfilePage: Page<ProfilePageProps> = ({
           {session && (
             <UserAvatar
               src={session?.user.avatar}
-              fallback={session?.user.username?.[0] || user.email[0]}
+              fallback={user?.username?.[0] ?? user?.email[0] ?? ""}
               size={100}
               fallbackClassName="text-4xl"
             />
@@ -115,16 +115,10 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const wishlists = await client.query("wishlists.findByOwner", {
-    userId: user.id,
-    includePrivate: session?.user.id === user.id,
-  });
-
   return {
     props: {
       session,
       user,
-      wishlists,
     },
   };
 };
