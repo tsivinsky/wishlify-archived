@@ -28,8 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   const form = new formidable.IncomingForm({
     keepExtensions: true,
-    filename: (name, ext) =>
-      `${name}-${session.user.username ?? Date.now()}${ext}`,
+    filename: () => `${session.user.id}`,
     uploadDir: "./",
   });
 
@@ -69,8 +68,8 @@ const handler: NextApiHandler = async (req, res) => {
 
     s3.putObject(params, (err) => {
       if (err) {
-        console.log(err);
-        return res.end();
+        console.error(err);
+        return res.json({});
       }
 
       const imagePath = `${s3Config.name}/${params.Key}`;
