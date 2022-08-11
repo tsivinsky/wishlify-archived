@@ -51,7 +51,7 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
       </Head>
 
       <div className="flex flex-col sm:flex-row gap-6">
-        <div className="sticky z-sticky top-0 bottom-0 py-5 px-10 flex flex-col items-center gap-3">
+        <div className="py-5 px-10 flex flex-col items-center gap-3">
           {user && (
             <UserAvatar
               src={user?.avatar}
