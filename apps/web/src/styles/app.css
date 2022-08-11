@@ -6,6 +6,10 @@
   --header-height: 69px;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 @layer utilities {
   .h-header {
     height: var(--header-height);
