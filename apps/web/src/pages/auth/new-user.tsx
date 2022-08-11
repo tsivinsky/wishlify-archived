@@ -43,6 +43,7 @@ const NewUserPage: Page = () => {
     <>
       <Head>
         <title>Wishlify | Спасибо за регистрацию</title>
+        <meta name="description" content="Wishlify" />
       </Head>
 
       <Panel className="max-w-[400px] flex flex-col gap-4 rounded-lg">

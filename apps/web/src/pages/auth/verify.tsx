@@ -12,6 +12,7 @@ const VerifyPage: Page = () => {
     <>
       <Head>
         <title>Wishlify | Подтверждение</title>
+        <meta name="description" content="Wishlify" />
       </Head>
 
       <Panel className="max-w-[520px] flex flex-col items-center rounded-lg">

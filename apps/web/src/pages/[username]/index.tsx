@@ -45,6 +45,17 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
     <>
       <Head>
         <title>{user?.username ? user.username : "Wishlify"}</title>
+        <meta
+          name="description"
+          content={session?.user.username ?? "Wishlify"}
+        />
+        <meta
+          property="og:title"
+          content={session?.user.username ?? "Wishlify"}
+        />
+        {session?.user.avatar && (
+          <meta property="og:image" content={session.user.avatar} />
+        )}
       </Head>
 
       <div className="flex flex-col sm:flex-row gap-6">

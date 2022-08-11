@@ -48,6 +48,7 @@ const LoginPage: Page<LoginPageProps> = ({ providers }) => {
     <>
       <Head>
         <title>Wishlify | Вход</title>
+        <meta name="description" content="Авторизация Wishlify" />
       </Head>
 
       <Panel className="max-w-sm w-full shadow-lg rounded-lg">

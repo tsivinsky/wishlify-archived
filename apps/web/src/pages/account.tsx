@@ -97,7 +97,11 @@ const AccountPage: Page = () => {
   return (
     <>
       <Head>
-        <title>Настройки аккаунта</title>
+        <title>Настройки аккаунта {session?.user.username}</title>
+        <meta
+          name="description"
+          content={`Настройки аккаунта ${session?.user.username}`}
+        />
       </Head>
 
       <div>
