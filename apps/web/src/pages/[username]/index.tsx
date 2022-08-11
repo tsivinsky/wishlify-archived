@@ -45,31 +45,23 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
     <>
       <Head>
         <title>{user?.username ? user.username : "Wishlify"}</title>
-        <meta
-          name="description"
-          content={session?.user.username ?? "Wishlify"}
-        />
-        <meta
-          property="og:title"
-          content={session?.user.username ?? "Wishlify"}
-        />
-        {session?.user.avatar && (
-          <meta property="og:image" content={session.user.avatar} />
-        )}
+        <meta name="description" content={user?.username ?? "Wishlify"} />
+        <meta property="og:title" content={user?.username ?? "Wishlify"} />
+        {user?.avatar && <meta property="og:image" content={user?.avatar} />}
       </Head>
 
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="sticky z-sticky top-0 bottom-0 py-5 px-10 flex flex-col items-center gap-3">
-          {session && (
+          {user && (
             <UserAvatar
-              src={session?.user.avatar}
+              src={user?.avatar}
               fallback={user?.username?.[0] ?? user?.email[0] ?? ""}
               size={100}
               fallbackClassName="text-4xl"
             />
           )}
           <h2 className="text-lg font-medium dark:text-white/90">
-            {session?.user.username}
+            {user?.username}
           </h2>
         </div>
         <div>
@@ -77,7 +69,7 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
             {wishlists?.map((wishlist) => (
               <Link
                 key={wishlist.id}
-                href={`/${session?.user.username}/${wishlist.displayName}`}
+                href={`/${user?.username}/${wishlist.displayName}`}
                 passHref
               >
                 <WishlistCard
