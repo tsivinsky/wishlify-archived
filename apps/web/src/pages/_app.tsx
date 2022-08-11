@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { AppProps } from "next/app";
 import Head from "next/head";
-
-import { Theme, useTheme } from "@wishlify/lib";
 
 import {
   DehydratedState,
@@ -13,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
 import { ConfirmContextProvider } from "use-confirm";
 
 import { getAppUrl } from "@/utils/getAppUrl";
@@ -35,20 +34,6 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
   const Layout = Component.layout ?? React.Fragment;
   const getLayout = Component.getLayout ?? ((page) => page);
 
-  const { setTheme } = useTheme();
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-
-    const theme =
-      savedTheme ??
-      (window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light");
-
-    setTheme(theme as Theme);
-  }, [setTheme]);
-
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -58,10 +43,12 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
           <Head>
             <title>Wishlify</title>
           </Head>
-          <ConfirmContextProvider buttonsText={{ yes: "Да", no: "Нет" }}>
-            <ConfirmDialog />
-            <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
-          </ConfirmContextProvider>
+          <ThemeProvider attribute="class">
+            <ConfirmContextProvider buttonsText={{ yes: "Да", no: "Нет" }}>
+              <ConfirmDialog />
+              <Layout>{getLayout(<Component {...pageProps} />)}</Layout>
+            </ConfirmContextProvider>
+          </ThemeProvider>
         </Hydrate>
       </QueryClientProvider>
     </SessionProvider>

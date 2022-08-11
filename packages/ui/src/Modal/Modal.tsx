@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import ReactDOM from "react-dom";
 
-import { useTheme } from "@wishlify/lib";
-
 import { useFocusTrap, useScrollLock } from "@mantine/hooks";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 import { XCircle } from "phosphor-react";
 
 import classes from "./Modal.module.css";

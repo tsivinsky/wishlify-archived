@@ -24,6 +24,7 @@
     "framer-motion": "*",
     "next": "*",
     "phosphor-react": "*",
-    "@mantine/hooks": "*"
+    "@mantine/hooks": "*",
+    "next-themes": "*"
   }
 }
