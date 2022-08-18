@@ -59,12 +59,24 @@ const HomePage: Page = () => {
     }
   };
 
+  const handleKeydownOnCard = (
+    e: React.KeyboardEvent<HTMLDivElement>,
+    wishlist: Wishlist
+  ) => {
+    if (e.key === "Enter") {
+      const wishlistLink = `/${session?.user.username}/${wishlist.displayName}`;
+      router.push(wishlistLink);
+    } else if (e.key === " ") {
+      toggleSelectedWishlist(wishlist.id);
+    }
+  };
+
   const onCreateNewWishlist = async () => {
     closeNewWishlistModal();
     await wishlists.refetch();
   };
 
-  const handleDeleteSelectedWishlists = async () => {
+  const deleteSelectedWishlists = async () => {
     const ok = await ask(
       `Вы собираетесь удалить ${
         selectedWishlists.length
@@ -108,7 +120,7 @@ const HomePage: Page = () => {
                 transition={{ type: "tween" }}
                 className="flex items-center gap-4"
               >
-                <Button color="red" onClick={handleDeleteSelectedWishlists}>
+                <Button color="red" onClick={deleteSelectedWishlists}>
                   Удалить
                 </Button>
                 <div className="bg-blue-100 text-blue-800 rounded-md px-2 py-1">
@@ -149,8 +161,12 @@ const HomePage: Page = () => {
                 wishlist.id
               ),
             })}
+            tabIndex={0}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
               handleClickOnCard(e, wishlist)
+            }
+            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) =>
+              handleKeydownOnCard(e, wishlist)
             }
           />
         ))}

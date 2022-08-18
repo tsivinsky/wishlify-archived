@@ -17,12 +17,12 @@ const ThemeSwitcher: React.FC = () => {
   let ThemeIcon = theme === "dark" ? Moon : Sun;
 
   return (
-    <div
+    <button
       className="cursor-pointer p-1 rounded-full transition-colors duration-200 hover:bg-gray-200 hover:dark:bg-neutral-700"
       onClick={toggleTheme}
     >
       <ThemeIcon size={24} color={theme === "dark" ? "white" : "black"} />
-    </div>
+    </button>
   );
 };
 
