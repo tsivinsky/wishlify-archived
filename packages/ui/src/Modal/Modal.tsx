@@ -110,7 +110,7 @@ export const Modal: React.FC<ModalProps> = ({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className={backdropClassName}
-              onClick={closeModal}
+              onPointerDown={closeModal}
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.3 }}
@@ -120,7 +120,7 @@ export const Modal: React.FC<ModalProps> = ({
                 className={className}
                 role="dialog"
                 ref={modalRef}
-                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
               >
                 {(!!title || withCloseButton) && (
                   <div
