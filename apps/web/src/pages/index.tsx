@@ -50,12 +50,16 @@ const HomePage: Page = () => {
     }
   };
 
+  const openWishlistPage = (wishlist: Wishlist) => {
+    const url = `/${session?.user.username}/${wishlist.displayName}`;
+    router.push(url);
+  };
+
   const handleClickOnCard = (e: React.MouseEvent, wishlist: Wishlist) => {
     if (e.ctrlKey || selectedWishlists.length > 0) {
       toggleSelectedWishlist(wishlist.id);
     } else {
-      const wishlistLink = `/${session?.user.username}/${wishlist.displayName}`;
-      router.push(wishlistLink);
+      openWishlistPage(wishlist);
     }
   };
 
@@ -64,8 +68,7 @@ const HomePage: Page = () => {
     wishlist: Wishlist
   ) => {
     if (e.key === "Enter") {
-      const wishlistLink = `/${session?.user.username}/${wishlist.displayName}`;
-      router.push(wishlistLink);
+      openWishlistPage(wishlist);
     } else if (e.key === " ") {
       toggleSelectedWishlist(wishlist.id);
     }
