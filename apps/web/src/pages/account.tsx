@@ -9,6 +9,7 @@ import { TRPCError } from "@trpc/server";
 import { unstable_getServerSession } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { useConfirm } from "use-confirm";
 
 import { uploadAvatar } from "@/api/file";
 
@@ -44,6 +45,8 @@ const AccountPage: Page = () => {
     defaultValues: { username: session?.user.username },
   });
 
+  const { ask } = useConfirm();
+
   const { file, filePreview, onFileChange } = useFileInput();
 
   const onSubmit = async (data: AccountForm) => {
@@ -64,16 +67,10 @@ const AccountPage: Page = () => {
   };
 
   const handleDeleteAccount = async () => {
-    if (
-      !confirm(
-        "Здесь будет другое окно, но потом. А пока, вы точно хотите удалить аккаунт? Это навсегда"
-      )
-    ) {
-      return;
-    }
+    const ok = await ask("Вы уверены что хотите удалить аккаунт? Это навсегда");
+    if (!ok) return;
 
     await deleteUser.mutateAsync();
-
     signOut();
   };
 
