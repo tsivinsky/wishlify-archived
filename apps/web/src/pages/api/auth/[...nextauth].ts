@@ -4,8 +4,6 @@ import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import EmailProvider from "next-auth/providers/email";
 
-import { s3Config } from "@/utils/s3";
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [

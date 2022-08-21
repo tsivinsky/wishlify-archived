@@ -5,11 +5,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { getDeclensionByNumber } from "@wishlify/lib";
-import { Button } from "@wishlify/ui";
 
 import { Wishlist } from "@prisma/client";
 import clsx from "clsx";
-import { AnimatePresence, motion } from "framer-motion";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useConfirm } from "use-confirm";
