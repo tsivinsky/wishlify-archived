@@ -1,8 +1,7 @@
-import { useMemo, useState } from "react";
-
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
+import { useFileInput } from "@wishlify/lib";
 import { Button, FileInput, Input, Panel, UserAvatar } from "@wishlify/ui";
 
 import { useMutation } from "@tanstack/react-query";
@@ -29,7 +28,7 @@ type AccountForm = {
 const AccountPage: Page = () => {
   const { data: session } = useSession({ required: true });
 
-  const uploadFile = useMutation((file: File) =>
+  const uploadAvatarMutation = useMutation((file: File) =>
     uploadAvatar<{ imagePath: string | null }>(file)
   );
 
@@ -45,27 +44,11 @@ const AccountPage: Page = () => {
     defaultValues: { username: session?.user.username },
   });
 
-  const [avatarFile, setAvatarFile] = useState<File>();
-
-  const avatarImage = useMemo(() => {
-    if (avatarFile) {
-      const pseudoUrl = URL.createObjectURL(avatarFile);
-      return pseudoUrl;
-    }
-
-    return session?.user.avatar;
-  }, [session?.user.avatar, avatarFile]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setAvatarFile(file);
-  };
+  const { file, filePreview, onFileChange } = useFileInput();
 
   const onSubmit = async (data: AccountForm) => {
-    if (avatarFile) {
-      const result = await uploadFile.mutateAsync(avatarFile);
+    if (file) {
+      const result = await uploadAvatarMutation.mutateAsync(file);
       if (result.imagePath) {
         data.avatar = result.imagePath;
       }
@@ -116,9 +99,9 @@ const AccountPage: Page = () => {
             className="flex flex-col gap-4 max-w-screen-lg mx-auto"
           >
             <div className="flex justify-center">
-              <FileInput onChange={handleFileChange}>
+              <FileInput onChange={onFileChange}>
                 <UserAvatar
-                  src={avatarImage}
+                  src={filePreview ?? session?.user.avatar}
                   fallback={session?.user.username?.[0] || ""}
                   size={128}
                   fallbackClassName="!text-5xl"
@@ -135,7 +118,7 @@ const AccountPage: Page = () => {
             <Button
               type="submit"
               className="self-end"
-              loading={uploadFile.isLoading || updateUser.isLoading}
+              loading={uploadAvatarMutation.isLoading || updateUser.isLoading}
             >
               Сохранить
             </Button>
