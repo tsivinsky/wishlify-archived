@@ -18,6 +18,7 @@ import { trpc } from "@/utils/trpc";
 
 import { NewWishlistModal } from "@/components/NewWishlistModal";
 import { WishlistCard } from "@/components/WishlistCard";
+import { WishlistsControls } from "@/components/WishlistsControls";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { Page } from "@/types/Page";
@@ -113,46 +114,11 @@ const HomePage: Page = () => {
         <h2 className="text-2xl font-medium dark:text-white/90">
           Привет, {session?.user?.username}
         </h2>
-        <div className="flex gap-4 items-center">
-          <AnimatePresence exitBeforeEnter>
-            {selectedWishlists.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 3 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 3 }}
-                transition={{ type: "tween" }}
-                className="flex items-center gap-4"
-              >
-                <Button color="red" onClick={deleteSelectedWishlists}>
-                  Удалить
-                </Button>
-                <div className="bg-blue-100 text-blue-800 rounded-md px-2 py-1">
-                  <div className="flex gap-1 overflow-hidden">
-                    Выбрано:
-                    <AnimatePresence exitBeforeEnter initial={false}>
-                      <motion.div
-                        key={selectedWishlists.length}
-                        initial={{ y: 20 }}
-                        animate={{ y: 0 }}
-                        exit={{ y: -20 }}
-                        transition={{ type: "tween" }}
-                        className="w-[2ch] flex justify-end"
-                      >
-                        {selectedWishlists.length}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <Button
-            className="w-full sm:w-auto"
-            onClick={() => openNewWishlistModal()}
-          >
-            Создать вишлист
-          </Button>
-        </div>
+        <WishlistsControls
+          selectedWishlistsCount={selectedWishlists.length}
+          onCreateWishlist={() => openNewWishlistModal()}
+          onDelete={deleteSelectedWishlists}
+        />
       </div>
       <div className="mt-4 flex flex-wrap gap-4">
         {wishlists.data?.map((wishlist) => (
