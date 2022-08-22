@@ -11,9 +11,9 @@ module.exports = {
         "secondary-dark": "#404040",
       },
       fontFamily: {
-        sans: ["Roboto"],
-        outfit: ["Outfit"],
-        roboto: ["Roboto"],
+        sans: ["Roboto", "sans-serif"],
+        outfit: ["Outfit", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
       },
       zIndex: {
         auto: "auto",
