@@ -114,7 +114,7 @@ const HomePage: Page = () => {
         </h2>
         <WishlistsControls
           selectedWishlistsCount={selectedWishlists.length}
-          onCreateWishlist={() => openNewWishlistModal()}
+          onCreateWishlist={openNewWishlistModal}
           onDelete={deleteSelectedWishlists}
         />
       </div>
