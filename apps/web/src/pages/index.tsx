@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { getDeclensionByNumber } from "@wishlify/lib";
+import { getDeclensionByNumber, useModal } from "@wishlify/lib";
 
 import { Wishlist } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
@@ -35,9 +35,7 @@ const HomePage: Page = () => {
 
   const { ask } = useConfirm();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openNewWishlistModal = () => setIsModalOpen(true);
-  const closeNewWishlistModal = () => setIsModalOpen(false);
+  const newWishlistModal = useModal(false);
 
   const [selectedWishlists, setSelectedWishlists] = useState<string[]>([]);
   const toggleSelectedWishlist = (wishlistId: string) => {
@@ -73,7 +71,7 @@ const HomePage: Page = () => {
   };
 
   const onCreateNewWishlist = async () => {
-    closeNewWishlistModal();
+    newWishlistModal.close();
     await wishlists.refetch();
   };
 
@@ -102,8 +100,8 @@ const HomePage: Page = () => {
         <meta name="description" content="Домашняя страница Wishlify" />
       </Head>
       <NewWishlistModal
-        isOpen={isModalOpen}
-        onClose={closeNewWishlistModal}
+        isOpen={newWishlistModal.isOpen}
+        onClose={newWishlistModal.close}
         onSuccess={onCreateNewWishlist}
       />
 
@@ -113,7 +111,7 @@ const HomePage: Page = () => {
         </h2>
         <WishlistsControls
           selectedWishlistsCount={selectedWishlists.length}
-          onCreateWishlist={openNewWishlistModal}
+          onCreateWishlist={newWishlistModal.open}
           onDelete={deleteSelectedWishlists}
         />
       </div>
