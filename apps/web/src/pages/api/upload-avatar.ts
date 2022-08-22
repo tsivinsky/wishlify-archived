@@ -8,7 +8,7 @@ import { unstable_getServerSession } from "next-auth";
 
 import { s3Config } from "@/utils/s3";
 
-import { authOptions } from "./auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const config = {
   api: {

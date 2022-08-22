@@ -17,9 +17,9 @@ import { trpc } from "@/utils/trpc";
 
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
-import { Page } from "@/types/Page";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-import { authOptions } from "./api/auth/[...nextauth]";
+import { Page } from "@/types/Page";
 
 type AccountForm = {
   username: string | null;

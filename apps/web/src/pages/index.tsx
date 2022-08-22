@@ -18,9 +18,9 @@ import { WishlistCard } from "@/components/WishlistCard";
 import { WishlistsControls } from "@/components/WishlistsControls";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
-import { Page } from "@/types/Page";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-import { authOptions } from "./api/auth/[...nextauth]";
+import { Page } from "@/types/Page";
 
 const HomePage: Page = () => {
   const { data: session } = useSession({ required: true });
