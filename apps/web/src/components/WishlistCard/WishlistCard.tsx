@@ -13,12 +13,14 @@ export type WishlistCardProps<
   E extends React.ElementType = typeof WishlistCardDefaultElement
 > = PanelProps<E> & {
   wishlist: Wishlist;
+  isSelected?: boolean;
 };
 
 export const WishlistCard = <
   E extends React.ElementType = typeof WishlistCardDefaultElement
 >({
   wishlist,
+  isSelected = false,
   className,
   ...props
 }: WishlistCardProps<E>) => {
@@ -27,7 +29,10 @@ export const WishlistCard = <
       size="small"
       className={clsx(
         "w-full sm:w-[200px] shadow rounded-lg flex flex-col justify-between cursor-pointer hover:border-primary/40 hover:dark:border-primary/90 hover:shadow-none",
-        className
+        className,
+        {
+          "!border-primary/80 shadow-none": isSelected,
+        }
       )}
       {...props}
     >

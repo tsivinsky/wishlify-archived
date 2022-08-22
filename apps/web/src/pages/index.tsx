@@ -123,11 +123,8 @@ const HomePage: Page = () => {
           <WishlistCard
             key={wishlist.id}
             wishlist={wishlist}
-            className={clsx("flex-grow", {
-              "!border-primary/80 shadow-none": selectedWishlists.includes(
-                wishlist.id
-              ),
-            })}
+            isSelected={selectedWishlists.includes(wishlist.id)}
+            className="flex-grow"
             tabIndex={0}
             onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
               handleClickOnCard(e, wishlist)
