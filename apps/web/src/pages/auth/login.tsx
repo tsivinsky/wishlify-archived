@@ -5,10 +5,11 @@ import Head from "next/head";
 
 import { Button, Input, Panel } from "@wishlify/ui";
 
-import { unstable_getServerSession } from "next-auth/next";
 import { Provider } from "next-auth/providers";
 import { getProviders, signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
+
+import { getServerSession } from "@/utils/getServerSession";
 
 import { AuthLayout } from "@/layouts/AuthLayout";
 
@@ -78,11 +79,7 @@ LoginPage.getLayout = (page) => <AuthLayout>{page}</AuthLayout>;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const providers = await getProviders();
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   if (session) {
     return {

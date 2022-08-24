@@ -6,13 +6,13 @@ import { Button, FileInput, Input, Panel, UserAvatar } from "@wishlify/ui";
 
 import { useMutation } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
-import { unstable_getServerSession } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useConfirm } from "use-confirm";
 
 import { uploadAvatar } from "@/api/file";
 
+import { getServerSession } from "@/utils/getServerSession";
 import { trpc } from "@/utils/trpc";
 
 import { DashboardLayout } from "@/layouts/DashboardLayout";
@@ -136,11 +136,7 @@ const AccountPage: Page = () => {
 AccountPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   if (!session) {
     return {

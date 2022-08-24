@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { getDeclensionByNumber, useModal } from "@wishlify/lib";
 
 import { Wishlist } from "@prisma/client";
-import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useConfirm } from "use-confirm";
 
 import { useSelectedWishlists } from "@/hooks/useSelectedWishlists";
 
+import { getServerSession } from "@/utils/getServerSession";
 import { trpc } from "@/utils/trpc";
 
 import { NewWishlistModal } from "@/components/NewWishlistModal";
@@ -131,11 +131,7 @@ const HomePage: Page = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   if (!session) {
     return {

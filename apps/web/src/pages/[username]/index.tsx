@@ -5,9 +5,9 @@ import Link from "next/link";
 import { UserAvatar } from "@wishlify/ui";
 
 import { User } from "@prisma/client";
-import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 
+import { getServerSession } from "@/utils/getServerSession";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
@@ -103,11 +103,7 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   const client = getTRPCClient();
 
