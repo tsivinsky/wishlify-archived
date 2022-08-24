@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,6 +8,8 @@ import { Wishlist } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useConfirm } from "use-confirm";
+
+import { useSelectedWishlists } from "@/hooks/useSelectedWishlists";
 
 import { trpc } from "@/utils/trpc";
 
@@ -37,14 +37,8 @@ const HomePage: Page = () => {
 
   const newWishlistModal = useModal(false);
 
-  const [selectedWishlists, setSelectedWishlists] = useState<string[]>([]);
-  const toggleSelectedWishlist = (wishlistId: string) => {
-    if (selectedWishlists.includes(wishlistId)) {
-      setSelectedWishlists((prev) => prev.filter((id) => id !== wishlistId));
-    } else {
-      setSelectedWishlists((prev) => [...prev, wishlistId]);
-    }
-  };
+  const { selectedWishlists, toggleSelectedWishlist, clearSelectedWishlists } =
+    useSelectedWishlists();
 
   const openWishlistPage = (wishlist: Wishlist) => {
     const url = `/${session?.user.username}/${wishlist.displayName}`;
@@ -89,7 +83,7 @@ const HomePage: Page = () => {
     if (!ok) return;
 
     await deleteWishlists.mutateAsync({ wishlists: selectedWishlists });
-    setSelectedWishlists([]);
+    clearSelectedWishlists();
     await wishlists.refetch();
   };
 
