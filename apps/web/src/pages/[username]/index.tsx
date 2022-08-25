@@ -7,10 +7,12 @@ import { UserAvatar } from "@wishlify/ui";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
+import { createEmptyArray } from "@/utils/createEmptyArray";
 import { getServerSession } from "@/utils/getServerSession";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
+import { Placeholder } from "@/components/Placeholder";
 import { WishlistCard } from "@/components/WishlistCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
@@ -52,33 +54,43 @@ const ProfilePage: Page<ProfilePageProps> = ({ user: initialUser }) => {
 
       <div className="flex flex-col sm:flex-row gap-6">
         <div className="py-5 px-10 flex flex-col items-center gap-3">
-          {user && (
-            <UserAvatar
-              src={user?.avatar}
-              fallback={user?.username?.[0] ?? user?.email[0] ?? ""}
-              size={100}
-              fallbackClassName="text-4xl"
-            />
-          )}
+          <UserAvatar
+            src={user?.avatar}
+            fallback={user?.username?.[0] ?? user?.email[0] ?? ""}
+            size={100}
+            fallbackClassName="text-4xl"
+          />
           <h2 className="text-lg font-medium dark:text-white/90">
-            {user?.username}
+            {user ? (
+              user.username
+            ) : (
+              <Placeholder>placeholder username</Placeholder>
+            )}
           </h2>
         </div>
         <div>
           <div className="flex flex-wrap gap-4">
-            {wishlists?.map((wishlist) => (
-              <Link
-                key={wishlist.id}
-                href={`/${user?.username}/${wishlist.displayName}`}
-                passHref
-              >
-                <WishlistCard
-                  as="a"
-                  wishlist={wishlist}
-                  className="flex-grow"
-                />
-              </Link>
-            ))}
+            {wishlists
+              ? wishlists.map((wishlist) => (
+                  <Link
+                    key={wishlist.id}
+                    href={`/${user?.username}/${wishlist.displayName}`}
+                    passHref
+                  >
+                    <WishlistCard
+                      as="a"
+                      wishlist={wishlist}
+                      className="flex-grow"
+                    />
+                  </Link>
+                ))
+              : createEmptyArray(10).map((item) => (
+                  <WishlistCard
+                    key={item}
+                    wishlist={undefined}
+                    className="flex-grow"
+                  />
+                ))}
           </div>
         </div>
       </div>

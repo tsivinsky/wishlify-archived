@@ -10,6 +10,7 @@ import { useConfirm } from "use-confirm";
 
 import { useSelectedWishlists } from "@/hooks/useSelectedWishlists";
 
+import { createEmptyArray } from "@/utils/createEmptyArray";
 import { getServerSession } from "@/utils/getServerSession";
 import { trpc } from "@/utils/trpc";
 
@@ -110,21 +111,29 @@ const HomePage: Page = () => {
         />
       </div>
       <div className="mt-4 flex flex-wrap gap-4">
-        {wishlists.data?.map((wishlist) => (
-          <WishlistCard
-            key={wishlist.id}
-            wishlist={wishlist}
-            isSelected={selectedWishlists.includes(wishlist.id)}
-            className="flex-grow"
-            tabIndex={0}
-            onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-              handleClickOnCard(e, wishlist)
-            }
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) =>
-              handleKeydownOnCard(e, wishlist)
-            }
-          />
-        ))}
+        {wishlists.data
+          ? wishlists.data.map((wishlist) => (
+              <WishlistCard
+                key={wishlist.id}
+                wishlist={wishlist}
+                isSelected={selectedWishlists.includes(wishlist.id)}
+                className="flex-grow"
+                tabIndex={0}
+                onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                  handleClickOnCard(e, wishlist)
+                }
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) =>
+                  handleKeydownOnCard(e, wishlist)
+                }
+              />
+            ))
+          : createEmptyArray(10).map((item) => (
+              <WishlistCard
+                key={item}
+                wishlist={undefined}
+                className="flex-grow"
+              />
+            ))}
       </div>
     </>
   );

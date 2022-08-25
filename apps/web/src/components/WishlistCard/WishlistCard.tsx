@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { Panel, PanelProps } from "@wishlify/ui";
 
@@ -7,12 +7,14 @@ import clsx from "clsx";
 
 import { dayjs } from "@/utils/dayjs";
 
+import { Placeholder } from "../Placeholder";
+
 const WishlistCardDefaultElement = "div";
 
 export type WishlistCardProps<
   E extends React.ElementType = typeof WishlistCardDefaultElement
 > = PanelProps<E> & {
-  wishlist: Wishlist;
+  wishlist: Wishlist | undefined;
   isSelected?: boolean;
 };
 
@@ -24,6 +26,11 @@ export const WishlistCard = <
   className,
   ...props
 }: WishlistCardProps<E>) => {
+  const isPlaceholder = useMemo(
+    () => typeof wishlist === "undefined",
+    [wishlist]
+  );
+
   return (
     <Panel
       size="small"
@@ -37,11 +44,21 @@ export const WishlistCard = <
       {...props}
     >
       <div className="flex justify-between gap-1">
-        <h3 className="line-clamp-2 dark:text-white/90">{wishlist.name}</h3>
+        <h3 className="line-clamp-2 dark:text-white/90">
+          {isPlaceholder ? (
+            <Placeholder>placeholder name</Placeholder>
+          ) : (
+            wishlist?.name
+          )}
+        </h3>
       </div>
-      <span className="text-black/70 text-xs mt-2 dark:text-white/90">
-        {dayjs(wishlist.createdAt).format("DD.MM.YYYY")}
-      </span>
+      <div className="text-black/70 text-xs mt-2 dark:text-white/90">
+        {isPlaceholder ? (
+          <Placeholder>{dayjs().format("DD.MM.YYYY")}</Placeholder>
+        ) : (
+          dayjs(wishlist?.createdAt).format("DD.MM.YYYY")
+        )}
+      </div>
     </Panel>
   );
 };
