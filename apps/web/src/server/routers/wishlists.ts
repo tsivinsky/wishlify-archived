@@ -1,8 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { parseWishlistName } from "@/utils/parseWishlistName";
 import { createRouter } from "@/utils/router";
+import { formatWishlistName } from "@/utils/wishlist-name";
 
 export const wishlistRouter = createRouter()
   .middleware(async ({ ctx, next }) => {
@@ -60,7 +60,7 @@ export const wishlistRouter = createRouter()
       private: z.boolean().optional().default(false),
     }),
     async resolve({ ctx, input }) {
-      const displayName = parseWishlistName(input.name);
+      const displayName = formatWishlistName(input.name);
 
       const nameTaken = await ctx.prisma.wishlist.findFirst({
         where: { displayName },
