@@ -1,12 +1,15 @@
+import { useMemo } from "react";
+
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
-import { Button } from "@wishlify/ui";
+import { Button, Panel, UserAvatar } from "@wishlify/ui";
 
 import { User, Wishlist } from "@prisma/client";
-import { unstable_getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
+import { getServerSession } from "@/utils/getServerSession";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
@@ -32,33 +35,60 @@ const WishlistPage: Page<WishlistPageProps> = ({
   wishlist: initialWishlist,
   wishlistName,
 }) => {
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const { data: wishlist } = trpc.useQuery(
     ["wishlists.findByDisplayName", { displayName: wishlistName }],
     { initialData: initialWishlist }
   );
 
+  const isSameUser = useMemo(() => {
+    if (session?.user.id === user?.id) return true;
+
+    return false;
+  }, [session, user]);
+
   return (
     <>
       <Head>
         <title>Wishlify | {wishlist?.name}</title>
+        <meta name="description" content={wishlist?.name ?? "Wishlify"} />
       </Head>
 
-      <Button
-        variant="outlined"
-        color="gray"
-        size="small"
-        className="mb-2"
-        onClick={() => router.back()}
-      >
-        Назад
-      </Button>
+      <div>
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+          <div id="owner-info" className="w-full flex gap-3 items-center py-2">
+            <Link href={`/${user?.username}`} passHref>
+              <a className="cursor-pointer">
+                <UserAvatar
+                  src={user?.avatar}
+                  fallback={user?.username?.[0] ?? ""}
+                  size={42}
+                  fallbackClassName="!text-lg"
+                />
+              </a>
+            </Link>
+            <div className="flex flex-col">
+              <h3 className="text-xl dark:text-white/90">{wishlist?.name}</h3>
+              <Link href={`/${user?.username}`} passHref>
+                <a className="text-xs dark:text-white/90">{user?.username}</a>
+              </Link>
+            </div>
+          </div>
 
-      <h3 className="text-xl dark:text-white/90">{wishlist?.name}</h3>
-      <pre className="dark:text-white/90 overflow-hidden">
-        {JSON.stringify(wishlist, undefined, "  ")}
-      </pre>
+          <div>
+            {isSameUser && (
+              <Button className="w-full whitespace-nowrap">
+                Добавить товар
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <div id="products-list" className="py-2 mt-2">
+          <h3 className="dark:text-white/90">products will go here</h3>
+        </div>
+      </div>
     </>
   );
 };
@@ -80,18 +110,21 @@ export const getServerSideProps: GetServerSideProps<
     };
   }
 
-  const session = await unstable_getServerSession(
-    ctx.req,
-    ctx.res,
-    authOptions
-  );
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
 
   const client = getTRPCClient();
 
-  const [user, wishlist] = await Promise.all([
+  const result = await Promise.all([
     client.query("user.findByUsername", { username }),
     client.query("wishlists.findByDisplayName", { displayName: wishlistName }),
-  ]);
+  ]).catch((err) => {});
+  if (!result) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const [user, wishlist] = result;
 
   if (!user || !wishlist) {
     return {
@@ -110,6 +143,7 @@ export const getServerSideProps: GetServerSideProps<
 
   return {
     props: {
+      session,
       user,
       wishlist,
       wishlistName,
