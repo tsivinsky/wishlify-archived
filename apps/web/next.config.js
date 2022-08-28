@@ -3,6 +3,10 @@ const withTM = require("next-transpile-modules")([
   "@wishlify/lib",
 ]);
 
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -51,4 +55,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withTM(nextConfig);
+module.exports = withBundleAnalyzer(withTM(nextConfig));
