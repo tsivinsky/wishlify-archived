@@ -1,4 +1,4 @@
-export const getAppUrl = () => {
+export const getTRPCUrl = () => {
   let url = "http://localhost:3000/api/trpc";
 
   if (process.env.VERCEL_URL) {

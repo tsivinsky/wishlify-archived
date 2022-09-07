@@ -14,7 +14,7 @@ import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { ConfirmContextProvider } from "use-confirm";
 
-import { getAppUrl } from "@/utils/getAppUrl";
+import { getTRPCUrl } from "@/utils/getTRPCUrl";
 
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 
@@ -57,7 +57,7 @@ function WishlifyApp({ Component, pageProps }: WishlifyAppProps) {
 
 export default withTRPC({
   config() {
-    const url = getAppUrl();
+    const url = getTRPCUrl();
 
     return {
       url,

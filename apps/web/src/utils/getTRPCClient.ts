@@ -1,11 +1,11 @@
 import { AppRouter } from "@/server/router";
 import { createTRPCClient } from "@trpc/client";
 
-import { getAppUrl } from "./getAppUrl";
+import { getTRPCUrl } from "./getTRPCUrl";
 
 export const getTRPCClient = () => {
   const client = createTRPCClient<AppRouter>({
-    url: getAppUrl(),
+    url: getTRPCUrl(),
   });
 
   return client;
