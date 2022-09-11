@@ -15,9 +15,14 @@ export const useFileInput = () => {
     setFile(file);
   }, []);
 
+  const clearFile = useCallback(() => {
+    setFile(undefined);
+  }, []);
+
   return {
     file,
     filePreview,
     onFileChange,
+    clearFile,
   };
 };
