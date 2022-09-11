@@ -3,7 +3,7 @@
 }
 
 .variantPlain {
-  @apply border border-transparent;
+  @apply border border-transparent rounded-lg shadow hover:border-primary/40 hover:dark:border-primary/90 hover:shadow-none;
 }
 
 .colorWhite {

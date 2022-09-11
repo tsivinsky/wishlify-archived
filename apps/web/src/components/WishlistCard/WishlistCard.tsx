@@ -35,7 +35,7 @@ export const WishlistCard = <
     <Panel
       size="small"
       className={clsx(
-        "w-full sm:w-[200px] shadow rounded-lg flex flex-col justify-between cursor-pointer hover:border-primary/40 hover:dark:border-primary/90 hover:shadow-none",
+        "w-full sm:w-[200px] flex flex-col justify-between cursor-pointer",
         className,
         {
           "!border-primary/80 shadow-none": isSelected,
