@@ -1,14 +1,14 @@
 import { NextApiHandler } from "next";
 
-import { prisma } from "@/server/prisma";
 import * as AWS from "aws-sdk";
 import formidable, { File } from "formidable";
 import fs from "fs/promises";
+import path from "path";
 
 import { getServerSession } from "@/utils/getServerSession";
 import { s3Config } from "@/utils/s3";
 
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authOptions } from "./auth/[...nextauth]";
 
 export const config = {
   api: {
@@ -18,7 +18,7 @@ export const config = {
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {
-    return res.end();
+    return res.json({});
   }
 
   const session = await getServerSession(req, res, authOptions);
@@ -28,9 +28,26 @@ const handler: NextApiHandler = async (req, res) => {
 
   const form = new formidable.IncomingForm({
     keepExtensions: true,
-    filename: () => `${session.user.id}`,
+    filename: (name, ext) => `${name}-${Date.now()}${ext}`,
     uploadDir: "./",
   });
+
+  const s3 = new AWS.S3({
+    endpoint: s3Config.url,
+    region: s3Config.region,
+    credentials: {
+      accessKeyId: s3Config.accessKey,
+      secretAccessKey: s3Config.secretKey,
+    },
+    params: {
+      Bucket: s3Config.name,
+    },
+  });
+
+  if (session.user.avatar) {
+    const objectKey = path.basename(session.user.avatar);
+    await s3.deleteObject({ Bucket: s3Config.name, Key: objectKey }).promise();
+  }
 
   form.parse(req, async (err, fields, files) => {
     const file = files.file as File;
@@ -47,34 +64,10 @@ const handler: NextApiHandler = async (req, res) => {
       Body: data,
     };
 
-    const imagePath = `${s3Config.name}/${params.Key}`;
+    await s3.putObject(params).promise();
+    const image = params.Key;
 
-    const user = await prisma.user.findFirst({ where: { avatar: imagePath } });
-    if (user) {
-      return res.json({ imagePath });
-    }
-
-    const s3 = new AWS.S3({
-      endpoint: s3Config.url,
-      region: s3Config.region,
-      credentials: {
-        accessKeyId: s3Config.accessKey,
-        secretAccessKey: s3Config.secretKey,
-      },
-      params: {
-        Bucket: s3Config.name,
-      },
-    });
-
-    s3.putObject(params, (err) => {
-      if (err) {
-        console.error(err);
-        return res.json({});
-      }
-
-      const imagePath = `${s3Config.name}/${params.Key}`;
-      return res.json({ imagePath });
-    });
+    return res.json({ image });
   });
 };
 

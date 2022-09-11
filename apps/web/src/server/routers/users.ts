@@ -62,6 +62,7 @@ export const userRouter = createRouter()
 
       if (ctx.session) {
         ctx.session.user.username = updatedUser.username;
+        ctx.session.user.avatar = updatedUser.avatar;
       }
 
       return updatedUser;
