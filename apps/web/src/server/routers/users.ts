@@ -35,7 +35,7 @@ export const userRouter = createRouter()
     async resolve({ ctx, input }) {
       const { username, avatar } = input;
 
-      const newData: { [Key in keyof User]?: User[Key] } = {};
+      const newData: Partial<User> = {};
 
       if (username && ctx.session?.user.username !== username) {
         const usernameTaken = await ctx.prisma.user.findFirst({
