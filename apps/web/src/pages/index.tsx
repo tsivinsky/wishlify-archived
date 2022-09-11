@@ -105,7 +105,6 @@ const HomePage: Page = () => {
           Привет, {session?.user?.username}
         </h2>
         <WishlistsControls
-          selectedWishlistsCount={selectedWishlists.length}
           onCreateWishlist={newWishlistModal.open}
           onDelete={deleteSelectedWishlists}
         />

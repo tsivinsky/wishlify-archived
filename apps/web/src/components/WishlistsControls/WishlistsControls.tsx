@@ -4,17 +4,23 @@ import { Button } from "@wishlify/ui";
 
 import { AnimatePresence, motion } from "framer-motion";
 
+import { useSelectedWishlists } from "@/hooks/useSelectedWishlists";
+
 export type WishlistsControlsProps = {
-  selectedWishlistsCount: number;
   onDelete: () => void;
   onCreateWishlist: () => void;
 };
 
 export const WishlistsControls: React.FC<WishlistsControlsProps> = ({
-  selectedWishlistsCount,
   onDelete,
   onCreateWishlist,
 }) => {
+  const selectedWishlists = useSelectedWishlists(
+    (state) => state.selectedWishlists
+  );
+
+  const selectedWishlistsCount = selectedWishlists.length;
+
   return (
     <div className="flex gap-4 items-center">
       <AnimatePresence exitBeforeEnter>
