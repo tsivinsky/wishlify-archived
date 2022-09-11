@@ -42,11 +42,7 @@ const WishlistPage: Page<WishlistPageProps> = ({
     { initialData: initialWishlist }
   );
 
-  const isSameUser = useMemo(() => {
-    if (session?.user.id === user?.id) return true;
-
-    return false;
-  }, [session, user]);
+  const isSameUser = session?.user.id === user?.id;
 
   return (
     <>
