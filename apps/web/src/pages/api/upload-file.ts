@@ -28,6 +28,7 @@ const handler: NextApiHandler = async (req, res) => {
 
   const form = new formidable.IncomingForm({
     keepExtensions: true,
+    filename: (name, ext) => `${name}-${Date.now()}${ext}`,
     uploadDir: "./",
   });
 
