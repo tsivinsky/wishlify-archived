@@ -4,15 +4,13 @@ import Head from "next/head";
 import { useFileInput } from "@wishlify/lib";
 import { Button, FileInput, Input, Panel, UserAvatar } from "@wishlify/ui";
 
-import { useMutation } from "@tanstack/react-query";
-import { TRPCError } from "@trpc/server";
 import { signOut, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useConfirm } from "use-confirm";
 
-import { uploadAvatar } from "@/api/file";
-
+import { useUploadAvatarMutation } from "@/features/avatar";
 import { getServerSession } from "@/utils/getServerSession";
+import { reloadSession } from "@/utils/reloadSession";
 import { trpc } from "@/utils/trpc";
 
 import { DashboardLayout } from "@/layouts/DashboardLayout";
@@ -29,11 +27,9 @@ type AccountForm = {
 const AccountPage: Page = () => {
   const { data: session } = useSession({ required: true });
 
-  const uploadAvatarMutation = useMutation((file: File) =>
-    uploadAvatar<{ imagePath: string | null }>(file)
-  );
+  const uploadAvatarMutation = useUploadAvatarMutation();
 
-  const updateUser = trpc.useMutation(["user.update"]);
+  const updateUserMutation = trpc.useMutation(["user.update"]);
   const deleteUser = trpc.useMutation(["user.delete"]);
 
   const {
@@ -47,23 +43,25 @@ const AccountPage: Page = () => {
 
   const { ask } = useConfirm();
 
-  const { file, filePreview, onFileChange } = useFileInput();
+  const { file, filePreview, onFileChange, clearFile } = useFileInput();
 
   const onSubmit = async (data: AccountForm) => {
     if (file) {
       const result = await uploadAvatarMutation.mutateAsync(file);
-      if (result.imagePath) {
-        data.avatar = result.imagePath;
+      if (result.image) {
+        data.avatar = result.image;
       }
     }
 
-    try {
-      await updateUser.mutateAsync(data);
-      // TODO: somehow refetch session for immediate changes
-    } catch (err) {
-      const error = err as TRPCError;
-      setError("username", { message: error.message });
-    }
+    updateUserMutation.mutate(data, {
+      onSuccess: () => {
+        clearFile();
+        reloadSession();
+      },
+      onError: (error) => {
+        setError("username", { message: error.message });
+      },
+    });
   };
 
   const handleDeleteAccount = async () => {
@@ -115,7 +113,9 @@ const AccountPage: Page = () => {
             <Button
               type="submit"
               className="self-end"
-              loading={uploadAvatarMutation.isLoading || updateUser.isLoading}
+              loading={
+                uploadAvatarMutation.isLoading || updateUserMutation.isLoading
+              }
             >
               Сохранить
             </Button>

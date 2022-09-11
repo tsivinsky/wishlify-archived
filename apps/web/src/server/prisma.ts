@@ -17,7 +17,7 @@ prisma.$use(async (params, next) => {
     result?.avatar &&
     !result.avatar.startsWith(s3Config.url)
   ) {
-    result.avatar = `${s3Config.url}/${result.avatar}`;
+    result.avatar = `${s3Config.url}/${s3Config.name}/${result.avatar}`;
   }
 
   return result;
