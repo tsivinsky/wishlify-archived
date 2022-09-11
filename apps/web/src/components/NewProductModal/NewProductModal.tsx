@@ -22,7 +22,7 @@ export const NewProductModal: React.FC<NewProductModalProps> = ({
   ...props
 }) => {
   const addProductMutation = trpc.useMutation(["products.add-to-wishlist"]);
-  const uploadFileMutation = useUploadFileMutation<{ image: string }>();
+  const uploadFileMutation = useUploadFileMutation();
 
   const {
     handleSubmit,
@@ -43,7 +43,9 @@ export const NewProductModal: React.FC<NewProductModalProps> = ({
 
     if (file) {
       const { image } = await uploadFileMutation.mutateAsync(file);
-      data.image = image;
+      if (image) {
+        data.image = image;
+      }
     }
 
     await addProductMutation.mutateAsync({

@@ -1,19 +1,21 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 
 import { useModal } from "@wishlify/lib";
-import { Button, UserAvatar } from "@wishlify/ui";
+import { Button, Panel, UserAvatar } from "@wishlify/ui";
 
 import { User, Wishlist } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
+import { dayjs } from "@/utils/dayjs";
+import { getFullImageUrl } from "@/utils/getFullImageUrl";
 import { getServerSession } from "@/utils/getServerSession";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
 import { NewProductModal } from "@/components/NewProductModal";
-import { ProductCard } from "@/components/ProductCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -99,13 +101,33 @@ const WishlistPage: Page<WishlistPageProps> = ({
           </div>
         </div>
 
-        <div id="products-list" className="py-2 mt-2 flex flex-wrap gap-4">
+        <div id="products-list" className="py-2 mt-2 flex flex-col gap-4">
           {wishlist?.products.map((product) => (
-            <ProductCard
+            <Panel
               key={product.id}
-              product={product}
-              className="flex-grow w-full sm:w-[200px] cursor-pointer"
-            />
+              size="unsized"
+              className="overflow-hidden border-none flex cursor-pointer"
+            >
+              {product.image ? (
+                <div className="w-28 h-24 relative">
+                  <Image
+                    src={getFullImageUrl(product.image)!}
+                    alt={product.title}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </div>
+              ) : (
+                <div className="w-28 h-24 transition-colors duration-200 bg-neutral-300/40 dark:bg-neutral-800" />
+              )}
+              <div className="p-2 flex flex-col justify-between">
+                <h2 className="text-lg">{product.title}</h2>
+                <span className="text-sm">
+                  Добавлено{" "}
+                  {dayjs(product.createdAt).format("DD.MM.YYYY в HH:mm")}
+                </span>
+              </div>
+            </Panel>
           ))}
         </div>
       </div>
