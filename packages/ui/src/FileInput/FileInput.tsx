@@ -17,7 +17,10 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
     };
 
     return (
-      <div className={clsx("cursor-pointer", className)} onClick={handleClick}>
+      <div
+        className={clsx("cursor-pointer w-fit", className)}
+        onClick={handleClick}
+      >
         <input type="file" className="hidden" ref={mergedRef} {...props} />
         {children}
       </div>
