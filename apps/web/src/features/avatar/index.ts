@@ -1,1 +1,1 @@
-export * from "./useUploadAvatarMutation";
+export * from "./mutations";
