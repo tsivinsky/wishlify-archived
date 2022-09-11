@@ -3,6 +3,7 @@ import { NextApiHandler } from "next";
 import * as AWS from "aws-sdk";
 import formidable, { File } from "formidable";
 import fs from "fs/promises";
+import path from "path";
 
 import { getServerSession } from "@/utils/getServerSession";
 import { s3Config } from "@/utils/s3";
@@ -43,7 +44,10 @@ const handler: NextApiHandler = async (req, res) => {
     },
   });
 
-  // TODO: delete old avatar object here
+  if (session.user.avatar) {
+    const objectKey = path.basename(session.user.avatar);
+    await s3.deleteObject({ Bucket: s3Config.name, Key: objectKey }).promise();
+  }
 
   form.parse(req, async (err, fields, files) => {
     const file = files.file as File;
