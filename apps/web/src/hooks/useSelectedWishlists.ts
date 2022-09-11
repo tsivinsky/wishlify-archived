@@ -10,17 +10,13 @@ export const useSelectedWishlists = create<SelectedWishlistsState>(
   (set, get) => ({
     selectedWishlists: [],
     toggleSelectedWishlist: (wishlistId) => {
-      const selectedWishlists = get().selectedWishlists;
+      const { selectedWishlists } = get();
 
-      if (selectedWishlists.includes(wishlistId)) {
-        set({
-          selectedWishlists: selectedWishlists.filter(
-            (id) => id !== wishlistId
-          ),
-        });
-      } else {
-        set({ selectedWishlists: [...selectedWishlists, wishlistId] });
-      }
+      const newSelectedWishlists = selectedWishlists.includes(wishlistId)
+        ? selectedWishlists.filter((id) => id !== wishlistId)
+        : [...selectedWishlists, wishlistId];
+
+      set({ selectedWishlists: newSelectedWishlists });
     },
     clearSelectedWishlists: () => set({ selectedWishlists: [] }),
   })
