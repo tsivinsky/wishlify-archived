@@ -1,10 +1,9 @@
-import { useMemo } from "react";
-
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
-import { Button, Panel, UserAvatar } from "@wishlify/ui";
+import { useModal } from "@wishlify/lib";
+import { Button, UserAvatar } from "@wishlify/ui";
 
 import { User, Wishlist } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -13,6 +12,8 @@ import { getServerSession } from "@/utils/getServerSession";
 import { getTRPCClient } from "@/utils/getTRPCClient";
 import { trpc } from "@/utils/trpc";
 
+import { NewProductModal } from "@/components/NewProductModal";
+import { ProductCard } from "@/components/ProductCard";
 import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
@@ -37,12 +38,19 @@ const WishlistPage: Page<WishlistPageProps> = ({
 }) => {
   const { data: session } = useSession();
 
-  const { data: wishlist } = trpc.useQuery(
+  const { data: wishlist, refetch: refetchWishlist } = trpc.useQuery(
     ["wishlists.findByDisplayName", { displayName: wishlistName }],
     { initialData: initialWishlist }
   );
 
+  const productModal = useModal(false);
+
   const isSameUser = session?.user.id === user?.id;
+
+  const onAddProductSuccess = async () => {
+    productModal.close();
+    await refetchWishlist();
+  };
 
   return (
     <>
@@ -50,6 +58,13 @@ const WishlistPage: Page<WishlistPageProps> = ({
         <title>Wishlify | {wishlist?.name}</title>
         <meta name="description" content={wishlist?.name ?? "Wishlify"} />
       </Head>
+
+      <NewProductModal
+        isOpen={productModal.isOpen}
+        onClose={productModal.close}
+        wishlistId={wishlist?.id}
+        onSuccess={onAddProductSuccess}
+      />
 
       <div>
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
@@ -74,15 +89,24 @@ const WishlistPage: Page<WishlistPageProps> = ({
 
           <div>
             {isSameUser && (
-              <Button className="w-full whitespace-nowrap">
+              <Button
+                className="w-full whitespace-nowrap"
+                onClick={productModal.open}
+              >
                 Добавить товар
               </Button>
             )}
           </div>
         </div>
 
-        <div id="products-list" className="py-2 mt-2">
-          <h3 className="dark:text-white/90">products will go here</h3>
+        <div id="products-list" className="py-2 mt-2 flex flex-wrap gap-4">
+          {wishlist?.products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              className="flex-grow w-full sm:w-[200px] cursor-pointer"
+            />
+          ))}
         </div>
       </div>
     </>

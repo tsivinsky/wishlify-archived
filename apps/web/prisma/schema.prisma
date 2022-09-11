@@ -54,12 +54,23 @@ model VerificationToken {
 }
 
 model Wishlist {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   displayName String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   userId      String
-  private     Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  private     Boolean   @default(false)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+}
+
+model Product {
+  id         String   @id @default(cuid())
+  title      String
+  image      String?
+  wishlist   Wishlist @relation(fields: [wishlistId], references: [id])
+  wishlistId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

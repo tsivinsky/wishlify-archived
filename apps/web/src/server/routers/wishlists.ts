@@ -42,6 +42,7 @@ export const wishlistRouter = createRouter()
     async resolve({ ctx, input }) {
       const wishlist = await ctx.prisma.wishlist.findFirst({
         where: { displayName: input.displayName },
+        include: { products: true },
       });
 
       if (!wishlist) {
@@ -91,6 +92,10 @@ export const wishlistRouter = createRouter()
     }),
     async resolve({ ctx, input }) {
       try {
+        await ctx.prisma.product.deleteMany({
+          where: { wishlistId: { in: input.wishlists } },
+        });
+
         const deletedWishlists = await ctx.prisma.wishlist.deleteMany({
           where: { id: { in: input.wishlists } },
         });
