@@ -8,7 +8,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { useConfirm } from "use-confirm";
 
-import { useUploadAvatarMutation } from "@/features/avatar";
+import { useUploadFileMutation } from "@/features/files";
 import { getServerSession } from "@/utils/getServerSession";
 import { reloadSession } from "@/utils/reloadSession";
 import { trpc } from "@/utils/trpc";
@@ -27,7 +27,9 @@ type AccountForm = {
 const AccountPage: Page = () => {
   const { data: session } = useSession({ required: true });
 
-  const uploadAvatarMutation = useUploadAvatarMutation();
+  const uploadAvatarMutation = useUploadFileMutation({
+    deleteUserAvatar: true,
+  });
 
   const updateUserMutation = trpc.useMutation(["user.update"]);
   const deleteUser = trpc.useMutation(["user.delete"]);

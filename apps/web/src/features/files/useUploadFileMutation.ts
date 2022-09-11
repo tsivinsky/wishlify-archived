@@ -1,7 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { uploadFile } from "@/api/file";
+import { UploadFileOptions, uploadFile } from "./api";
 
-export const useUploadFileMutation = <TResult = {}>() => {
-  return useMutation((file: File) => uploadFile<TResult>(file));
+export const useUploadFileMutation = <TResult = { image?: string }>(
+  options?: UploadFileOptions
+) => {
+  return useMutation((file: File) => uploadFile<TResult>(file, options));
 };

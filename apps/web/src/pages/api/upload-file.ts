@@ -3,6 +3,7 @@ import { NextApiHandler } from "next";
 import * as AWS from "aws-sdk";
 import formidable from "formidable";
 import fs from "fs/promises";
+import path from "path";
 
 import { getServerSession } from "@/utils/getServerSession";
 import { s3Config } from "@/utils/s3";
@@ -30,6 +31,18 @@ const handler: NextApiHandler = async (req, res) => {
     uploadDir: "./",
   });
 
+  const s3 = new AWS.S3({
+    endpoint: s3Config.url,
+    region: s3Config.region,
+    credentials: {
+      accessKeyId: s3Config.accessKey,
+      secretAccessKey: s3Config.secretKey,
+    },
+    params: {
+      Bucket: s3Config.name,
+    },
+  });
+
   form.parse(req, async (err, fields, files) => {
     if (err) {
       console.error(err);
@@ -37,13 +50,8 @@ const handler: NextApiHandler = async (req, res) => {
     }
 
     const file = files.file as formidable.File;
-
-    let filename = fields.filename ?? file.newFilename;
+    const filename = file.newFilename;
     const filepath = file.filepath;
-
-    if (Array.isArray(filename)) {
-      filename = filename[0];
-    }
 
     const data = await fs.readFile(filepath);
     await fs.rm(filepath);
@@ -54,28 +62,17 @@ const handler: NextApiHandler = async (req, res) => {
       Body: data,
     };
 
-    const image = `${s3Config.name}/${params.Key}`;
+    if (fields.deleteUserAvatar === "true" && session.user.avatar) {
+      const objectKey = path.basename(session.user.avatar);
+      await s3
+        .deleteObject({ Bucket: s3Config.name, Key: objectKey })
+        .promise();
+    }
 
-    const s3 = new AWS.S3({
-      endpoint: s3Config.url,
-      region: s3Config.region,
-      credentials: {
-        accessKeyId: s3Config.accessKey,
-        secretAccessKey: s3Config.secretKey,
-      },
-      params: {
-        Bucket: s3Config.name,
-      },
-    });
+    await s3.putObject(params).promise();
+    const image = params.Key;
 
-    s3.putObject(params, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({});
-      }
-
-      return res.json({ image });
-    });
+    return res.json({ image });
   });
 };
 
