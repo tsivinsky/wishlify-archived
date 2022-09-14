@@ -34,7 +34,7 @@ export type PanelSize = keyof typeof sizeClasses;
 export type PanelOwnProps = {
   variant?: PanelVariant;
   size?: PanelSize;
-  hoverEffect?: boolean;
+  withHoverEffect?: boolean;
 };
 
 export type PanelProps<
@@ -53,7 +53,7 @@ export const Panel: PanelType = React.forwardRef(
       variant = "plain",
       color = "white",
       size = "medium",
-      hoverEffect = true,
+      withHoverEffect = false,
       className: additionalClassName,
       children,
       ...props
@@ -70,10 +70,10 @@ export const Panel: PanelType = React.forwardRef(
         colorClasses[color],
         sizeClasses[size],
         {
-          [classes.withHoverEffect]: hoverEffect,
+          [classes.withHoverEffect]: withHoverEffect,
         }
       );
-    }, [additionalClassName, variant, size, hoverEffect]);
+    }, [additionalClassName, variant, size, withHoverEffect]);
 
     return (
       <Element className={className} ref={ref} {...props}>

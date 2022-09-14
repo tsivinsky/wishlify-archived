@@ -34,7 +34,6 @@ export const ProductSidebar: React.FC<ProductSidebarProps> = ({
           transition={{ type: "tween" }}
           className="sticky top-0 bottom-0 right-0 min-w-[300px]"
           size="small"
-          hoverEffect={false}
         >
           {product && (
             <div className="flex flex-col items-end">

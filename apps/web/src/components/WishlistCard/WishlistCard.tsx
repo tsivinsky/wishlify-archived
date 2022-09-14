@@ -41,6 +41,7 @@ export const WishlistCard = <
           "!border-primary/80 shadow-none": isSelected,
         }
       )}
+      withHoverEffect
       {...props}
     >
       <div className="flex justify-between gap-1">

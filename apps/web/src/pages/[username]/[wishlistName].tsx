@@ -153,6 +153,7 @@ const WishlistPage: Page<WishlistPageProps> = ({
                 size="unsized"
                 className="overflow-hidden flex cursor-pointer"
                 onClick={() => openProductSidebar(product.id)}
+                withHoverEffect
               >
                 {product.image ? (
                   <div className="w-28 h-24 relative">
