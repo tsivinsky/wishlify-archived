@@ -110,7 +110,7 @@ const WishlistPage: Page<WishlistPageProps> = ({
       />
 
       <div className="flex gap-4 relative">
-        <motion.div key={productSidebar.isOpen + ""} className="w-full">
+        <motion.div className="w-full">
           <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
             <div
               id="owner-info"
