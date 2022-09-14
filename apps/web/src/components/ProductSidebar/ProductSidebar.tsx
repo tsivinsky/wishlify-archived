@@ -38,12 +38,14 @@ export const ProductSidebar: React.FC<ProductSidebarProps> = ({
           {product && (
             <div className="flex flex-col items-end">
               {productImage && (
-                <div className="relative overflow-hidden rounded w-48 h-48">
+                <div className="relative overflow-hidden rounded w-full h-full">
                   <Image
                     src={productImage}
                     alt={product.title}
-                    layout="fill"
-                    objectFit="cover"
+                    width="100%"
+                    height="100%"
+                    layout="responsive"
+                    objectFit="contain"
                   />
                 </div>
               )}
